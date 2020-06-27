@@ -27,6 +27,10 @@ class RegularTableModel extends DOMWidgetModel {
       _view_name: RegularTableModel.viewName,
       _view_module: RegularTableModel.viewModule,
       _view_module_version: RegularTableModel.viewModuleVersion,
+
+      height: 200,
+      _data: {},
+      _editable: false,
     };
   }
 }
