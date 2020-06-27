@@ -1,0 +1,27 @@
+include LICENSE
+include README.md
+include CONTRIBUTING.md
+
+include requirements.txt
+include setup.cfg
+include pyproject.toml
+include .bumpversion.cfg
+include Makefile
+
+# Webapp files
+graft js
+prune js/node_modules
+prune js/build
+prune js/dist
+prune js/docs
+prune js/lib
+prune js/package-lock.json
+prune js/yarn.lock
+
+
+# Patterns to exclude from any directory
+global-exclude *~
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude .git
+global-exclude .ipynb_checkpoints

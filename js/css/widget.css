@@ -1,0 +1,43 @@
+div.dagred3 {
+  min-height: 600px;
+  min-width: 800px;
+  /* resize: both; */
+}
+
+div.dagred3 svg {
+  height: 600px;
+  width: 800px;
+}
+
+.dagred3 .node rect,
+.dagred3 .node circle,
+.dagred3 .node ellipse,
+.dagred3 .node polygon {
+  stroke: #555;
+  fill: #fff;
+}
+
+.dagred3 .edgePath path {
+  stroke: #555;
+  fill: transparent;
+  stroke-width: 1.5px;
+}
+
+.dagred3 .edgeLabel foreignObject {
+  overflow: visible;
+}
+
+.dagred3 .edgeLabel foreignObject u {
+  text-decoration: none;
+}
+
+.dagred3 .node text {
+  pointer-events: none;
+}
+
+
+div#dagred3tooltip {
+  background-color: rgba(255, 255, 255, .8);
+  border: 1px solid #555;
+  padding: 15px;
+}
