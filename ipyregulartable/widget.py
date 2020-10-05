@@ -31,9 +31,11 @@ class SimpleDataModel(object):
         return len(self._data)
 
     def getNumColumns(self):
-        return len(self._data[0]) if self._data else 0,
+        return len(self._data[0]) if self._data else 0
 
     def getDataSlice(self, x0, y0, x1, y1):
+        if (x0, y0, x1, y1) == (0, 0, 0, 0):
+            return []
         return [row[x0: x1+1] for row in self._data[y0:y1+1]]
 
 
@@ -78,14 +80,16 @@ class RegularTableWidget(DOMWidget):
         if content.get('event', '') == 'click':
             self.click(content.get('value', ''))
         elif content.get('event', '') == 'getDataSlice':
+            print(content)
             self.getDataSlice(*content.get('value', []))
         elif content.get('event', '') == 'getEditable':
             self.getEditable(*content.get('value', []))
 
     def getDataSlice(self, x0, y0, x1, y1):
         self._data = {"num_rows": self._datamodel.getNumRows(),
-                        "num_columns": self._datamodel.getNumColumns(),
-                        "data": self._datamodel.getDataSlice(x0, y0, x1, y1)}
+                      "num_columns": self._datamodel.getNumColumns(),
+                      "data": self._datamodel.getDataSlice(x0, y0, x1, y1)}
+        print(self._data)
         return self._data
 
     def getEditable(self, x, y):

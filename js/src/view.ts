@@ -13,7 +13,7 @@ import "../css/widget.css";
 export
 class RegularTableView extends DOMWidgetView {
   public table: any;
-  public loadData: any;
+  public loadData: any = undefined;
   public isEditable: any;
 
   public render(): void {
@@ -27,12 +27,16 @@ class RegularTableView extends DOMWidgetView {
 
     this.displayed.then(() => {
       this._render();
+      this.table.draw();
     });
   }
 
   public _handle_data(): void {
-    if (this.loadData !== undefined) {
+    if (this.loadData !== undefined && this.model.get("_data")) {
+      console.log("here1");
+      console.log(this.model.get("_data"));
       this.loadData(this.model.get("_data"));
+      this.loadData = undefined;
     }
   }
 
@@ -64,7 +68,7 @@ class RegularTableView extends DOMWidgetView {
 
     // hook data model into python
     this.table.setDataListener((x0: number, y0: number, x1: number, y1: number) => {
-      new Promise((resolve) => {
+      return new Promise((resolve) => {
         // send event to python
         this.send({event: "getDataSlice", value: [x0, y0, x1, y1]});
         this.loadData = resolve;
@@ -86,7 +90,7 @@ class RegularTableView extends DOMWidgetView {
         return new Promise((resolve) => {
           // send event to python
           this.send({event: "getEditable", value: [meta.x, meta.y]});
-          this.isEditable = (target=event.target) => {
+          this.isEditable = (target:any = event.target) => {
             if (this.model.get("_editable") === true){
               (target as HTMLElement).setAttribute("contenteditable", "true");
             }
@@ -95,9 +99,5 @@ class RegularTableView extends DOMWidgetView {
         });
       }
     });
-
-    this.table.draw();
   }
-
-
 }

@@ -63,4 +63,4 @@ help:
 print-%:
 	@echo '$*=$($*)'
 
-.PHONY: clean install serverextension labextension test tests help docs dist
+.PHONY: clean install serverextension labextension test tests help docs dist js
