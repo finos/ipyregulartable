@@ -13,7 +13,8 @@ import "../css/widget.css";
 export
 class RegularTableView extends DOMWidgetView {
   public table: any;
-  public loadData: any = undefined;
+  public resolve: any = undefined;
+  public reject: any = undefined;
   public isEditable: any;
 
   public render(): void {
@@ -32,11 +33,14 @@ class RegularTableView extends DOMWidgetView {
   }
 
   public _handle_data(): void {
-    if (this.loadData !== undefined && this.model.get("_data")) {
+    if (this.resolve !== undefined && this.model.get("_data")) {
       console.log("here1");
       console.log(this.model.get("_data"));
-      this.loadData(this.model.get("_data"));
-      this.loadData = undefined;
+      this.resolve(this.model.get("_data"));
+      this.resolve = undefined;
+      this.reject = undefined
+    } else {
+      console.log("here2");
     }
   }
 
@@ -68,10 +72,19 @@ class RegularTableView extends DOMWidgetView {
 
     // hook data model into python
     this.table.setDataListener((x0: number, y0: number, x1: number, y1: number) => {
-      return new Promise((resolve) => {
+
+      if (this.resolve) {
+        // existing outstanding promise
+        this.reject();
+        this.resolve = undefined;
+        this.reject = undefined;
+      }
+
+      return new Promise((resolve, reject) => {
         // send event to python
         this.send({event: "getDataSlice", value: [x0, y0, x1, y1]});
-        this.loadData = resolve;
+        this.resolve = resolve;
+        this.reject = reject;
       });
     });
 
