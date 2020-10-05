@@ -23,7 +23,7 @@ class RegularTableView extends DOMWidgetView {
     this.el.style.height = `${this.model.get("height")}px`;
 
     this.model.on("change:height", this._handle_height, this);
-    this.model.on("change:_data", this._handle_data, this);
+    // this.model.on("change:_data", this._handle_data, this);
     this.model.on("change:_editable", this._handle_editable, this);
 
     this.displayed.then(() => {
@@ -41,6 +41,9 @@ class RegularTableView extends DOMWidgetView {
       this.reject = undefined
     } else {
       console.log("here2");
+      this.reject();
+      this.resolve = undefined;
+      this.reject = undefined
     }
   }
 
@@ -57,6 +60,8 @@ class RegularTableView extends DOMWidgetView {
   public _handle_msg(msg: any): void {
     if (msg.type === "draw") {
       this._handle_draw();
+    } else if (msg.type === "data") {
+      this._handle_data();
     }
   }
 
@@ -72,19 +77,20 @@ class RegularTableView extends DOMWidgetView {
 
     // hook data model into python
     this.table.setDataListener((x0: number, y0: number, x1: number, y1: number) => {
-
-      if (this.resolve) {
-        // existing outstanding promise
-        this.reject();
-        this.resolve = undefined;
-        this.reject = undefined;
-      }
-
       return new Promise((resolve, reject) => {
+        if (this.resolve !== undefined) {
+          // existing outstanding promise
+          console.log("rejecting");
+          this.reject();
+          this.resolve = undefined;
+          this.reject = undefined;
+        }
+  
+        console.log(`requesting ${x0} ${y0} ${x1} ${y1}`)
         // send event to python
-        this.send({event: "getDataSlice", value: [x0, y0, x1, y1]});
         this.resolve = resolve;
         this.reject = reject;
+        this.send({event: "getDataSlice", value: [x0, y0, x1, y1]});
       });
     });
 
