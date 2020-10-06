@@ -15,7 +15,8 @@ class RegularTableView extends DOMWidgetView {
   public table: any;
   public resolve: any = undefined;
   public reject: any = undefined;
-  public isEditable: any;
+  public editable_resolve: any = undefined;
+  public editable_target: any = undefined;
 
   public render(): void {
     this.model.on("msg:custom", this._handle_msg, this);
@@ -45,8 +46,17 @@ class RegularTableView extends DOMWidgetView {
   }
 
   public _handle_editable(): void {
-    if (this.isEditable !== undefined) {
-      this.isEditable(this.model.get("_editable"));
+    if (this.editable_resolve !== undefined && this.model.get("_editable")) {
+      this.editable_resolve(true);
+      this.editable_resolve = undefined;
+      if (this.model.get("_editable") === true){
+        (this.editable_target as HTMLElement).setAttribute("contenteditable", "true");
+      }
+      this.editable_target = undefined;
+    } else {
+      this.editable_resolve(false);
+      this.editable_resolve = undefined;
+      this.editable_target = undefined;
     }
   }
 
@@ -84,7 +94,7 @@ class RegularTableView extends DOMWidgetView {
       // send event to python
       this.resolve = resolve;
       this.reject = reject;
-      this.send({event: "getDataSlice", value: [x0, y0, x1, y1]});
+      this.send({event: "dataslice", value: [x0, y0, x1, y1]});
     }));
 
     // hook in click events
@@ -99,15 +109,20 @@ class RegularTableView extends DOMWidgetView {
     this.table.addEventListener("click", (event: MouseEvent) => {
       const meta = this.table.getMeta(event.target);
       if (meta) {
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
+
+          if (this.editable_resolve !== undefined) {
+            // existing outstanding promise
+            this.editable_resolve(false);
+            this.editable_resolve = undefined;
+            this.editable_target = undefined;
+          }
+
+          this.editable_resolve = resolve;
+          this.editable_target = event.target;
+
           // send event to python
-          this.send({event: "getEditable", value: [meta.x, meta.y]});
-          this.isEditable = (target: any = event.target) => {
-            if (this.model.get("_editable") === true){
-              (target as HTMLElement).setAttribute("contenteditable", "true");
-            }
-            resolve();
-          };
+          this.send({event: "editable", value: [meta.x, meta.y]});
         });
       }
     });
