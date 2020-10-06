@@ -2,14 +2,14 @@
 import numpy as np
 import string
 from ipywidgets import DOMWidget, CallbackDispatcher
-from traitlets import observe, Unicode, Instance, Dict, Bool, Integer
-from functools import wraps
+from traitlets import Unicode, Dict, Bool, Integer
 from random import choice, sample, randint, random
 from ._version import __version__
 
+
 def _generateRandomData(n_rows=100, n_cols=10):
     coltypes = [choice((int, str, float, bool)) for _ in range(n_cols)]
-    
+
     return np.array([
         ([_] + [
             {
@@ -17,7 +17,7 @@ def _generateRandomData(n_rows=100, n_cols=10):
                 str: ''.join(sample(string.ascii_lowercase, 5)),
                 float: random() * 100,
                 bool: choice((True, False))
-            }.get(coltypes[_]) for _ in range(n_cols-1)
+            }.get(coltypes[_]) for _ in range(n_cols - 1)
         ]) for _ in range(n_rows)
     ])
 
@@ -36,7 +36,7 @@ class NumpyDataModel(object):
         return len(self._data[0]) if (self._data is not None and len(self._data) > 0) else 0
 
     def getDataSlice(self, x0, y0, x1, y1):
-        return self._data[y0:y1+1, x0:x1+1].T.tolist() if (x0, y0, x1, y1) != (0, 0, 0, 0) else []
+        return self._data[y0:y1 + 1, x0:x1 + 1].T.tolist() if (x0, y0, x1, y1) != (0, 0, 0, 0) else []
 
 
 class TwoBillionRows(object):
@@ -54,8 +54,8 @@ class TwoBillionRows(object):
 
     def getDataSlice(self, x0, y0, x1, y1):
         return [
-            [_+x for _ in range(y0, y1+1)]
-            for x in range(x0, x1+1)
+            [_ + x for _ in range(y0, y1 + 1)]
+            for x in range(x0, x1 + 1)
         ] if (x0, y0, x1, y1) != (0, 0, 0, 0) else []
 
 
@@ -77,7 +77,7 @@ class RegularTableWidget(DOMWidget):
 
         # install data model
         self._datamodel = datamodel or TwoBillionRows()
-        
+
         # for click events
         self._click_handlers = CallbackDispatcher()
 

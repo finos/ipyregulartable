@@ -36,11 +36,11 @@ class RegularTableView extends DOMWidgetView {
     if (this.resolve !== undefined && this.model.get("_data")) {
       this.resolve(this.model.get("_data"));
       this.resolve = undefined;
-      this.reject = undefined
+      this.reject = undefined;
     } else {
       this.reject();
       this.resolve = undefined;
-      this.reject = undefined
+      this.reject = undefined;
     }
   }
 
@@ -73,21 +73,19 @@ class RegularTableView extends DOMWidgetView {
     this.el.appendChild(this.table);
 
     // hook data model into python
-    this.table.setDataListener((x0: number, y0: number, x1: number, y1: number) => {
-      return new Promise((resolve, reject) => {
-        if (this.resolve !== undefined) {
-          // existing outstanding promise
-          this.reject();
-          this.resolve = undefined;
-          this.reject = undefined;
-        }
-  
-        // send event to python
-        this.resolve = resolve;
-        this.reject = reject;
-        this.send({event: "getDataSlice", value: [x0, y0, x1, y1]});
-      });
-    });
+    this.table.setDataListener((x0: number, y0: number, x1: number, y1: number) => new Promise((resolve, reject) => {
+      if (this.resolve !== undefined) {
+        // existing outstanding promise
+        this.reject();
+        this.resolve = undefined;
+        this.reject = undefined;
+      }
+
+      // send event to python
+      this.resolve = resolve;
+      this.reject = reject;
+      this.send({event: "getDataSlice", value: [x0, y0, x1, y1]});
+    }));
 
     // hook in click events
     this.table.addEventListener("click", (event: MouseEvent) => {
@@ -104,7 +102,7 @@ class RegularTableView extends DOMWidgetView {
         return new Promise((resolve) => {
           // send event to python
           this.send({event: "getEditable", value: [meta.x, meta.y]});
-          this.isEditable = (target:any = event.target) => {
+          this.isEditable = (target: any = event.target) => {
             if (this.model.get("_editable") === true){
               (target as HTMLElement).setAttribute("contenteditable", "true");
             }
