@@ -12,7 +12,7 @@
 
 # 
 
-An [ipywidgets](https://github.com/jupyter-widgets/ipywidgets) wrapper of [regular-table](https://github.com/jpmorganchase/regular-table/blob/master/README.md) for Jupyter.
+An [ipywidgets](https://github.com/jupyter-widgets/ipywidgets) wrapper of [regular-table](https://github.com/jpmorganchase/regular-table) for Jupyter.
 
 
 
