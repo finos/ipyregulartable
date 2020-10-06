@@ -34,13 +34,10 @@ class RegularTableView extends DOMWidgetView {
 
   public _handle_data(): void {
     if (this.resolve !== undefined && this.model.get("_data")) {
-      console.log("here1");
-      console.log(this.model.get("_data"));
       this.resolve(this.model.get("_data"));
       this.resolve = undefined;
       this.reject = undefined
     } else {
-      console.log("here2");
       this.reject();
       this.resolve = undefined;
       this.reject = undefined
@@ -80,13 +77,11 @@ class RegularTableView extends DOMWidgetView {
       return new Promise((resolve, reject) => {
         if (this.resolve !== undefined) {
           // existing outstanding promise
-          console.log("rejecting");
           this.reject();
           this.resolve = undefined;
           this.reject = undefined;
         }
   
-        console.log(`requesting ${x0} ${y0} ${x1} ${y1}`)
         // send event to python
         this.resolve = resolve;
         this.reject = reject;

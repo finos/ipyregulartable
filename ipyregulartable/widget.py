@@ -1,4 +1,5 @@
 # coding: utf-8
+import numpy as np
 import string
 from ipywidgets import DOMWidget, CallbackDispatcher
 from traitlets import observe, Unicode, Instance, Dict, Bool, Integer
@@ -8,19 +9,20 @@ from ._version import __version__
 
 def _generateRandomData(n_rows=100, n_cols=10):
     coltypes = [choice((int, str, float, bool)) for _ in range(n_cols)]
-    return [
-        [
+    
+    return np.array([
+        ([_] + [
             {
                 int: randint(0, 100),
                 str: ''.join(sample(string.ascii_lowercase, 5)),
                 float: random() * 100,
                 bool: choice((True, False))
-            }.get(coltypes[_]) for _ in range(n_cols)
-        ] for _ in range(n_rows)
-    ]
+            }.get(coltypes[_]) for _ in range(n_cols-1)
+        ]) for _ in range(n_rows)
+    ])
 
 
-class SimpleDataModel(object):
+class NumpyDataModel(object):
     def __init__(self, data=None):
         self._data = data or _generateRandomData()
 
@@ -31,10 +33,30 @@ class SimpleDataModel(object):
         return len(self._data)
 
     def getNumColumns(self):
-        return len(self._data[0]) if self._data else 0
+        return len(self._data[0]) if (self._data is not None and len(self._data) > 0) else 0
 
     def getDataSlice(self, x0, y0, x1, y1):
-        return [row[x0: x1+1] for row in self._data[y0:y1+1]]
+        return self._data[y0:y1+1, x0:x1+1].T.tolist() if (x0, y0, x1, y1) != (0, 0, 0, 0) else []
+
+
+class TwoBillionRows(object):
+    def __init__(self, data=None):
+        self._data = data or _generateRandomData()
+
+    def getEditable(self, x, y):
+        return False
+
+    def getNumRows(self):
+        return 2_000_000_000
+
+    def getNumColumns(self):
+        return 1_000
+
+    def getDataSlice(self, x0, y0, x1, y1):
+        return [
+            [_+x for _ in range(y0, y1+1)]
+            for x in range(x0, x1+1)
+        ] if (x0, y0, x1, y1) != (0, 0, 0, 0) else []
 
 
 class RegularTableWidget(DOMWidget):
@@ -54,7 +76,7 @@ class RegularTableWidget(DOMWidget):
         super(RegularTableWidget, self).__init__()
 
         # install data model
-        self._datamodel = datamodel or SimpleDataModel()
+        self._datamodel = datamodel or TwoBillionRows()
         
         # for click events
         self._click_handlers = CallbackDispatcher()
@@ -75,7 +97,6 @@ class RegularTableWidget(DOMWidget):
         self._click_handlers(self, value)
 
     def _handle_custom_msg(self, content, buffers=None):
-        print(content)
         if content.get('event', '') == 'click':
             self.click(content.get('value', ''))
         elif content.get('event', '') == 'getDataSlice':
@@ -84,7 +105,6 @@ class RegularTableWidget(DOMWidget):
             self.getEditable(*content.get('value', []))
 
     def getDataSlice(self, x0, y0, x1, y1):
-        print('setting data')
         self._data = {"num_rows": self._datamodel.getNumRows(),
                       "num_columns": self._datamodel.getNumColumns(),
                       "data": self._datamodel.getDataSlice(x0, y0, x1, y1)}
