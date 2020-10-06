@@ -18,7 +18,8 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 requires = [
-    "ipywidgets>=7.5.1"
+    "ipywidgets>=7.5.1",
+    "numpy"
 ]
 
 nb_path = pjoin(here, name, 'nbextension', 'static')
