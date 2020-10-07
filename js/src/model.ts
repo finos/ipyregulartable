@@ -37,6 +37,58 @@ class RegularTableModel extends DOMWidgetModel {
       _view_module_version: RegularTableModel.viewModuleVersion,
 
       height: 200,
+      css: {
+        table: "", // overall table styles
+        thead: "", // header
+        theadtr: "", // header row
+        theadth: "", // entries in header row (column headers)
+        tbody: "", // body
+        tbodytr: "", // rows in body
+        tbodyth: "", // headers in body (row headers)
+        tbodytd: "", // entries 
+      },
+      styler: {
+          table: {
+            expression: "",
+            style: ""
+          },
+          thead: {
+            expression: "",
+            style: ""
+          },
+          tr: {
+            expression: "",
+            style: ""
+          },
+          th: {
+            expression: "",
+            style: ""
+          },
+          td: {
+            expression: "",
+            style: ""
+          },
+          theadtr: {
+            expression: "",
+            style: ""
+          },
+          theadth: {
+            expression: "",
+            style: ""
+          },
+          tbody: {
+            expression: "",
+            style: ""
+          },
+          tbodytr: {
+            expression: "",
+            style: ""
+          },
+          tbodyth: {
+            expression: "",
+            style: ""
+          }
+      },
       _data: {},
       _editable: false,
     };

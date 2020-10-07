@@ -3,6 +3,10 @@ div.ipyregulartable {
   /* resize: both; */
 }
 
-div.ipyregulartable td.highlight {
+div.ipyregulartable table th {
+  font-weight: bold;
+}
+
+div.ipyregulartable table td.highlight {
   background-color: rgba(0,0,155, 0.1);
 }

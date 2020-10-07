@@ -23,6 +23,9 @@ class RegularTableWidget(DOMWidget):
 
     height = Integer(default_value=250).tag(sync=True)
 
+    css = Dict(default_value={}).tag(sync=True)
+    styler = Dict(default_value={}).tag(sync=True)
+
     _data = Dict(default_value={}).tag(sync=True)
     _editable = Bool(default_value=False).tag(sync=True)
 
@@ -71,6 +74,8 @@ class RegularTableWidget(DOMWidget):
     def dataslice(self, x0, y0, x1, y1):
         self._data = {"num_rows": self._datamodel.rows(),
                       "num_columns": self._datamodel.columns(),
+                      "column_headers": self._datamodel.columnheaders(x0, y0, x1, y1),
+                      "row_headers": self._datamodel.rowheaders(x0, y0, x1, y1),
                       "data": self._datamodel.dataslice(x0, y0, x1, y1)}
         self.post({"type": "data"})
         return self._data

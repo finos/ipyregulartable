@@ -18,6 +18,14 @@ class TwoBillionRows(DataModel):
     def columns(self):
         return 1_000
 
+    def rowheaders(self, x0, y0, x1, y1):
+        '''return column headers for data'''
+        return [[str(_)] for _ in range(y0, y1)]
+        
+    def columnheaders(self, x0, y0, x1, y1):
+        '''return column headers for data'''
+        return [[str(_)] for _ in range(x0, x1)]
+
     def dataslice(self, x0, y0, x1, y1):
         return [
             [_ + x for _ in range(y0, y1 + 1)]

@@ -26,5 +26,13 @@ class DataModel(with_metaclass(ABCMeta)):
     def dataslice(self, x0, y0, x1, y1):
         '''get slice of data from (x0, y0) to (x1, y1) inclusive'''
 
+    def rowheaders(self, x0, y0, x1, y1):
+        '''return column headers for data'''
+        return []
+        
+    def columnheaders(self, x0, y0, x1, y1):
+        '''return column headers for data'''
+        return []
+
     def write(self, x, y, value):
         '''write event'''
