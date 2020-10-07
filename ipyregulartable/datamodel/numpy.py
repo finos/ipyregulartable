@@ -22,7 +22,12 @@ def _generateRandomData(n_rows=100, n_cols=10):
 
 class NumpyDataModel(DataModel):
     def __init__(self, data=None):
-        self._data = data or _generateRandomData()
+        if isinstance(data, np.ndarray):
+            self._data = data
+        elif data is not None:
+            self._data = np.array(data)
+        else:
+            self._data = _generateRandomData()
 
     def editable(self, x, y):
         return True
@@ -35,3 +40,6 @@ class NumpyDataModel(DataModel):
 
     def dataslice(self, x0, y0, x1, y1):
         return self._data[y0:y1 + 1, x0:x1 + 1].T.tolist() if (x0, y0, x1, y1) != (0, 0, 0, 0) else []
+
+    def write(self, x, y, value):
+        self._data[y, x] = value

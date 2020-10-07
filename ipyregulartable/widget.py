@@ -45,13 +45,22 @@ class RegularTableWidget(DOMWidget):
     def click(self, value):
         self._click_handlers(self, value)
 
+    def edit(self, value):
+        self._edit_handlers(self, value)
+
     def _handle_custom_msg(self, content, buffers=None):
         if content.get('event', '') == 'click':
             self.click(content.get('value', ''))
+
         elif content.get('event', '') == 'dataslice':
             self.dataslice(*content.get('value', []))
+
         elif content.get('event', '') == 'editable':
             self.editable(*content.get('value', []))
+
+        elif content.get('event', '') == 'write':
+            self._datamodel.write(*content.get('value', []))
+            self.edit(content.get('value', ''))
 
     def dataslice(self, x0, y0, x1, y1):
         self._data = {"num_rows": self._datamodel.rows(),
