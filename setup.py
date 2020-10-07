@@ -1,3 +1,10 @@
+# *****************************************************************************
+#
+# Copyright (c) 2020, the ipyregulartable authors.
+#
+# This file is part of the jupyterlab_templates library, distributed under the terms of
+# the Apache License 2.0.  The full license can be found in the LICENSE file.
+#
 from setuptools import setup, find_packages
 from codecs import open
 from os import path
@@ -58,7 +65,7 @@ setup(
     description='ipywidgets wrapper around regular-table',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/timkpaine/ipyregulartable',
+    url='https://github.com/jpmorganchase/ipyregulartable',
     author='Tim Paine',
     author_email='t.paine154@gmail.com',
     license='Apache 2.0',

@@ -7,7 +7,7 @@
 <a href="https://dev.azure.com/tpaine154/jupyter/_build?definitionId=34&_a=summary"><img alt="Coverage" src="https://img.shields.io/azure-devops/coverage/tpaine154/jupyter/34/main"></a>
 <a href="https://pypi.python.org/pypi/ipyregulartable"><img alt="PyPI Version" src="https://img.shields.io/pypi/v/ipyregulartable.svg?color=brightgreen&style=flat-square"></a>
 <a href="https://www.npmjs.com/package/regular-table"><img alt="NPM Version" src="https://img.shields.io/npm/v/ipyregulartable.svg?color=brightgreen&style=flat-square"></a>
-<a href="https://github.com/timkpaine/ipyregulartable"><img alt="License" src="https://img.shields.io/github/license/timkpaine/ipyregulartable?color=brightgreen&style=flat-square"></a>
+<a href="https://github.com/jpmorganchase/ipyregulartable"><img alt="License" src="https://img.shields.io/github/license/jpmorganchase/ipyregulartable?color=brightgreen&style=flat-square"></a>
 </p>
 
 # 
@@ -17,13 +17,13 @@ An [ipywidgets](https://github.com/jupyter-widgets/ipywidgets) wrapper of [regul
 
 ## Examples
 ### Two Billion Rows
-![](https://raw.githubusercontent.com/timkpaine/ipyregulartable/main/docs/img/twobillion.gif)
+![](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/img/twobillion.gif)
 
 ### Click Events
-![](https://raw.githubusercontent.com/timkpaine/ipyregulartable/main/docs/img/click_events.gif)
+![](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/img/click_events.gif)
 
 ### Edit Events
-![](https://raw.githubusercontent.com/timkpaine/ipyregulartable/main/docs/img/edit_events.gif)
+![](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/img/edit_events.gif)
 
 ## Installation
 
@@ -45,3 +45,14 @@ the nbextension:
 ```bash
 jupyter nbextension enable --py [--sys-prefix|--user|--system] ipyregulartable
 ```
+
+
+## Development
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
+
+
+## License
+
+This software is licensed under the Apache 2.0 license. See the
+[LICENSE](LICENSE) and [AUTHORS](AUTHORS) files for details.
