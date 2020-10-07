@@ -2,3 +2,7 @@ div.ipyregulartable {
   min-height: 200px;
   /* resize: both; */
 }
+
+div.ipyregulartable td.highlight {
+  background-color: rgba(0,0,155, 0.1);
+}

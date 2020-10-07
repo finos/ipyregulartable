@@ -4,7 +4,7 @@ testjs: ## Clean and Make js tests
 testpy: ## Clean and Make unit tests
 	python3.7 -m pytest -v ipyregulartable/tests --cov=ipyregulartable
 
-tests: lint ## run the tests
+tests: ## run the tests
 	python3.7 -m pytest -v ipyregulartable/tests --cov=ipyregulartable --junitxml=python_junit.xml --cov-report=xml --cov-branch
 	cd js; yarn test
 
