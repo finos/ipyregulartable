@@ -15,9 +15,15 @@
 An [ipywidgets](https://github.com/jupyter-widgets/ipywidgets) wrapper of [regular-table](https://github.com/jpmorganchase/regular-table) for Jupyter.
 
 
-
-## Two Billion Rows
+## Examples
+### Two Billion Rows
 ![](https://raw.githubusercontent.com/timkpaine/ipyregulartable/main/docs/img/twobillion.gif)
+
+### Click Events
+![](https://raw.githubusercontent.com/timkpaine/ipyregulartable/main/docs/img/click_events.gif)
+
+### Edit Events
+![](https://raw.githubusercontent.com/timkpaine/ipyregulartable/main/docs/img/edit_events.gif)
 
 ## Installation
 
