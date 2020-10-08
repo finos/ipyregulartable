@@ -1,3 +1,4 @@
+
 div.ipyregulartable {
   min-height: 200px;
   /* resize: both; */
@@ -5,8 +6,9 @@ div.ipyregulartable {
 
 div.ipyregulartable table th {
   font-weight: bold;
+  background-color: rgba(0, 0, 0, .1);
 }
 
 div.ipyregulartable table td.highlight {
-  background-color: rgba(0,0,155, 0.1);
+  background-color: rgba(0, 0, 155, 0.1);
 }

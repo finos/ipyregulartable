@@ -159,3 +159,4 @@ python_junit.xml
 *.ipynb
 .autoversion
 docs/examples/ipyregulartable
+.vscode

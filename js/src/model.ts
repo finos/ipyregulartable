@@ -45,49 +45,49 @@ class RegularTableModel extends DOMWidgetModel {
         tbody: "", // body
         tbodytr: "", // rows in body
         tbodyth: "", // headers in body (row headers)
-        tbodytd: "", // entries 
+        tbodytd: "", // entries
       },
       styler: {
-          table: {
-            expression: "",
-            style: ""
-          },
-          thead: {
-            expression: "",
-            style: ""
-          },
-          tr: {
-            expression: "",
-            style: ""
-          },
-          th: {
-            expression: "",
-            style: ""
-          },
-          td: {
-            expression: "",
-            style: ""
-          },
-          theadtr: {
-            expression: "",
-            style: ""
-          },
-          theadth: {
-            expression: "",
-            style: ""
-          },
-          tbody: {
-            expression: "",
-            style: ""
-          },
-          tbodytr: {
-            expression: "",
-            style: ""
-          },
-          tbodyth: {
-            expression: "",
-            style: ""
-          }
+        table: {
+          expression: [],
+          style: [],
+        },
+        thead: {
+          expression: [],
+          style: [],
+        },
+        tr: {
+          expression: [],
+          style: [],
+        },
+        th: {
+          expression: [],
+          style: [],
+        },
+        td: {
+          expression: [],
+          style: [],
+        },
+        theadtr: {
+          expression: [],
+          style: [],
+        },
+        theadth: {
+          expression: [],
+          style: [],
+        },
+        tbody: {
+          expression: [],
+          style: [],
+        },
+        tbodytr: {
+          expression: [],
+          style: [],
+        },
+        tbodyth: {
+          expression: [],
+          style: [],
+        },
       },
       _data: {},
       _editable: false,

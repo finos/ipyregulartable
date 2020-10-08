@@ -21,7 +21,7 @@ class TwoBillionRows(DataModel):
     def rowheaders(self, x0, y0, x1, y1):
         '''return column headers for data'''
         return [[str(_)] for _ in range(y0, y1)]
-        
+
     def columnheaders(self, x0, y0, x1, y1):
         '''return column headers for data'''
         return [[str(_)] for _ in range(x0, x1)]

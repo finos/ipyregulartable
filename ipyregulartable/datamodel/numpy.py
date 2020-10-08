@@ -20,7 +20,7 @@ def _generateRandomData(n_rows=100, n_cols=10):
             {
                 int: randint(0, 100),
                 str: ''.join(sample(string.ascii_lowercase, 5)),
-                float: random() * 100,
+                float: (random() * 100) - 50,
                 bool: choice((True, False))
             }.get(coltypes[_]) for _ in range(n_cols - 1)
         ]) for _ in range(n_rows)
