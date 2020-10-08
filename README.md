@@ -25,6 +25,9 @@ An [ipywidgets](https://github.com/jupyter-widgets/ipywidgets) wrapper of [regul
 ### Edit Events
 ![](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/img/edit_events.gif)
 
+### Styling
+![](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/img/styling.gif)
+
 ## Installation
 
 You can install using `pip`:

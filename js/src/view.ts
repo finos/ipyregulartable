@@ -10,9 +10,9 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/unbound-method */
 import {DOMWidgetView} from "@jupyter-widgets/base";
+import {evaluate} from "mathjs";
 import "regular-table";
 import "regular-table/dist/css/material.css";
-
 
 // Import the CSS
 import "../css/widget.css";
@@ -32,20 +32,141 @@ class RegularTableView extends DOMWidgetView {
   public rows = 0;
   public columns = 0;
 
-
   public render(): void {
     this.model.on("msg:custom", this._handle_msg, this);
     this.el.classList.add("ipyregulartable");
-    this.el.style.height = `${this.model.get("height")}px`;
 
     this.model.on("change:height", this._handle_height, this);
-    // this.model.on("change:_data", this._handle_data, this);
-    // this.model.on("change:_editable", this._handle_editable, this);
+
+    this.model.on("change:styler", this._handle_styler, this);
+    this.model.on("change:css", this._handle_css, this);
 
     this.displayed.then(() => {
       this._render();
-      this.table.draw();
     });
+  }
+
+  public processPhosphorMessage(msg: any) {
+    super.processPhosphorMessage(msg);
+    switch (msg.type) {
+    case "resize":
+    case "after-show":
+      if (this.pWidget.isVisible) {
+        this._handle_height();
+        break;
+      }
+    }
+  }
+
+  public _handle_styler(): void {
+    const styler = this.model.get("styler");
+
+    this.table.addStyleListener(() => {
+      let key;
+      for ( const elemkey of Object.keys(styler)) {
+        switch (elemkey) {
+        case "table":
+        case "thead":
+        case "tbody":
+        case "tr":
+        case "th":
+        case "td": {
+          key = elemkey;
+          break;
+        }
+        case "theadtr": {
+          key = "thead tr";
+          break;
+        }
+        case "theadth": {
+          key = "thead th";
+          break;
+        }
+        case "tbodytr": {
+          key = "tbody tr";
+          break;
+        }
+        case "tbodyth": {
+          key = "tbody th";
+          break;
+        }
+        }
+
+        if (!styler[elemkey].expression){
+          break;
+        }
+        for (const elem of this.table.querySelectorAll(key)) {
+
+          let i = 0;
+
+          while (styler[elemkey].expression[i]) {
+            const meta = key !== "table" ? this.table.getMeta(elem) : {x: 0, y: 0};
+            const expression = styler[elemkey].expression[i]
+              .replace(/x/g, meta.x)
+              .replace(/y/g, meta.y)
+              .replace(/data/g, `"${elem.textContent}"`);
+            try {
+              if (evaluate(expression)){
+                if (!elem.style.cssText){
+                  elem.style.cssText = "";
+                }
+
+                // add new class
+                elem.style.cssText += styler[elemkey].style[i];
+              }
+            } catch (error) {
+              // eslint-disable-next-line no-console
+              console.log(`Expression: ${expression}`);
+              // eslint-disable-next-line no-console
+              console.log(error);
+            }
+            i++;
+          }
+        }
+      }
+    });
+    this.table.draw();
+  }
+
+  public _handle_css(): void {
+    const css = this.model.get("css");
+    let key;
+    for ( const elemkey of Object.keys(css)) {
+      switch (elemkey) {
+      case "table":
+      case "thead":
+      case "tbody":
+      case "tr":
+      case "th":
+      case "td": {
+        key = elemkey;
+        break;
+      }
+      case "theadtr": {
+        key = "thead tr";
+        break;
+      }
+      case "theadth": {
+        key = "thead th";
+        break;
+      }
+      case "tbodytr": {
+        key = "tbody tr";
+        break;
+      }
+      case "tbodyth": {
+        key = "tbody th";
+        break;
+      }
+      }
+      if (!css[elemkey]){
+        break;
+      }
+      for (const elem of this.table.querySelectorAll(key)) {
+        elem.style.cssText = css[elemkey];
+      }
+    }
+    this.table.draw();
   }
 
   public _handle_data(): void {
@@ -109,6 +230,7 @@ class RegularTableView extends DOMWidgetView {
 
   public _handle_height(): void {
     this.el.style.height = `${this.model.get("height")}px`;
+    this.table.style.height = `${this.model.get("height")}px`;
     this._handle_draw();
   }
 
