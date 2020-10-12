@@ -26,7 +26,7 @@ An [ipywidgets](https://github.com/jupyter-widgets/ipywidgets) wrapper of [regul
 ![](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/img/edit_events.gif)
 
 ### Styling
-![](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/img/styling.gif)
+![](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/img/style.gif)
 
 ## Installation
 
