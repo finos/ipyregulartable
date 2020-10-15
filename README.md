@@ -8,7 +8,7 @@
 <a href="https://pypi.python.org/pypi/ipyregulartable"><img alt="PyPI Version" src="https://img.shields.io/pypi/v/ipyregulartable.svg?color=brightgreen&style=flat-square"></a>
 <a href="https://www.npmjs.com/package/regular-table"><img alt="NPM Version" src="https://img.shields.io/npm/v/ipyregulartable.svg?color=brightgreen&style=flat-square"></a>
 <a href="https://github.com/jpmorganchase/ipyregulartable"><img alt="License" src="https://img.shields.io/github/license/jpmorganchase/ipyregulartable?color=brightgreen&style=flat-square"></a>
-<a href="https://mybinder.org/v2/gh/timkpaine/tributary/main?urlpath=lab"><img alt="Binder" src="https://mybinder.org/badge_logo.svg"></a>
+<a href="https://mybinder.org/v2/gh/jpmorganchase/ipyregulartable/main?urlpath=lab"><img alt="Binder" src="https://mybinder.org/badge_logo.svg"></a>
 </p>
 
 # 
