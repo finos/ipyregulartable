@@ -5,9 +5,11 @@
 # This file is part of the jupyterlab_templates library, distributed under the terms of
 # the Apache License 2.0.  The full license can be found in the LICENSE file.
 #
+import numpy as np
+import pandas as pd
 from ipywidgets import DOMWidget, CallbackDispatcher
 from traitlets import Instance, Unicode, Dict, Bool, Integer
-from .datamodel import DataModel, TwoBillionRows
+from .datamodel import DataModel, TwoBillionRows, NumpyDataModel, SeriesDataModel, DataFrameDataModel
 from ._version import __version__
 
 
@@ -34,7 +36,19 @@ class RegularTableWidget(DOMWidget):
         super(RegularTableWidget, self).__init__()
 
         # install data model
-        self._datamodel = datamodel or TwoBillionRows()
+        if datamodel is None:
+            # Demo
+            self.datamodel = TwoBillionRows()
+        elif isinstance(datamodel, (DataModel,)):
+            self.datamodel = datamodel
+        elif isinstance(datamodel, np.ndarray):
+            self.datamodel = NumpyDataModel(datamodel)
+        elif isinstance(datamodel, pd.Series):
+            self.datamodel = SeriesDataModel(datamodel)
+        elif isinstance(datamodel, pd.DataFrame):
+            self.datamodel = DataFrameDataModel(datamodel)
+        else:
+            raise Exception('Unsupported data model: {}'.format(datamodel))
 
         # for click events
         self._click_handlers = CallbackDispatcher()
@@ -68,20 +82,20 @@ class RegularTableWidget(DOMWidget):
             self.editable(*content.get('value', []))
 
         elif content.get('event', '') == 'write':
-            self._datamodel.write(*content.get('value', []))
+            self.datamodel.write(*content.get('value', []))
             self.edit(content.get('value', ''))
 
     def dataslice(self, x0, y0, x1, y1):
-        self._data = {"num_rows": self._datamodel.rows(),
-                      "num_columns": self._datamodel.columns(),
-                      "column_headers": self._datamodel.columnheaders(x0, y0, x1, y1),
-                      "row_headers": self._datamodel.rowheaders(x0, y0, x1, y1),
-                      "data": self._datamodel.dataslice(x0, y0, x1, y1)}
+        self._data = {"num_rows": self.datamodel.rows(),
+                      "num_columns": self.datamodel.columns(),
+                      "column_headers": self.datamodel.columnheaders(x0, y0, x1, y1),
+                      "row_headers": self.datamodel.rowheaders(x0, y0, x1, y1),
+                      "data": self.datamodel.dataslice(x0, y0, x1, y1)}
         self.post({"type": "data"})
         return self._data
 
     def editable(self, x, y):
-        self._editable = self._datamodel.editable(x, y)
+        self._editable = self.datamodel.editable(x, y)
         self.post({"type": "editable"})
         return self._editable
 

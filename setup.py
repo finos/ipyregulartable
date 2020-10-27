@@ -26,7 +26,8 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 requires = [
     "ipywidgets>=7.5.1",
-    "numpy"
+    "numpy",
+    "pandas>=0.22",
 ]
 
 nb_path = pjoin(here, name, 'nbextension', 'static')

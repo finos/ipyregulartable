@@ -18,16 +18,44 @@ An [ipywidgets](https://github.com/jupyter-widgets/ipywidgets) wrapper of [regul
 
 ## Examples
 ### Two Billion Rows
+[Notebook](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/examples/two_billion.ipynb)
+
 ![](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/img/twobillion.gif)
 
 ### Click Events
+[Notebook](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/examples/click_events.ipynb)
+
 ![](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/img/click_events.gif)
 
 ### Edit Events
+[Notebook](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/examples/edit_events.ipynb)
+
 ![](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/img/edit_events.gif)
 
 ### Styling
+[Notebook](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/examples/styling.ipynb)
+
 ![](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/img/style.gif)
+
+### Pandas Data Model
+For interactive/streaming sorting/pivoting/aggregation, take a look at [Perspective](https://github.com/finos/perspective), *Streaming pivot visualization via WebAssembly*, which also leverages [`regular-table`](https://github.com/jpmorganchase/regular-table).
+
+[Notebook](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/examples/pandas.ipynb)
+
+#### Series
+![](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/img/pd_series.png)
+
+#### DataFrame
+![](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/img/pd_df.png)
+
+#### DataFrame - Row Pivots
+![](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/img/pd_rpivot.png)
+
+#### DataFrame - Column Pivots
+![](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/img/pd_cpivot.png)
+
+#### DataFrame - Pivot Table
+![](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/img/pd_pt.png)
 
 ## Installation
 
