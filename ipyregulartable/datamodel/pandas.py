@@ -38,6 +38,13 @@ class SeriesDataModel(DataModel):
     def write(self, x, y, value):
         self._data.iloc[y] = value
 
+    def setData(self, data):
+        if isinstance(data, pd.Series):
+            self._data = data
+        else:
+            raise Exception('Cannot set non-pandas series data for pandas series data model')
+        self.draw()
+
 
 class DataFrameDataModel(DataModel):
     def __init__(self, data=None):
@@ -71,3 +78,9 @@ class DataFrameDataModel(DataModel):
 
     def write(self, x, y, value):
         self._data.iloc[y, x] = value
+
+    def setData(self, data):
+        if isinstance(data, pd.DataFrame):
+            self._data = data
+        else:
+            raise Exception('Cannot set non-pandas series data for pandas series data model')

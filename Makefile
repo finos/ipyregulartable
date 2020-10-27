@@ -1,19 +1,25 @@
-testjs: ## Clean and Make js tests
+tests: testpy testjs ## Run all tests
+
+testjs: ## Run js tests
 	cd js; yarn test
 
-testpy: ## Clean and Make unit tests
+testpy: ## Run python tests
 	python3.7 -m pytest -v ipyregulartable/tests --cov=ipyregulartable
 
-tests: ## run the tests
-	python3.7 -m pytest -v ipyregulartable/tests --cov=ipyregulartable --junitxml=python_junit.xml --cov-report=xml --cov-branch
-	cd js; yarn test
+lint: lintpy lintjs  ## run linters
 
-lint: ## run linter
+lintpy: ## run python linter
 	flake8 ipyregulartable setup.py
+
+lintjs: ## run js linter
 	cd js; yarn lint
 
-fix:  ## run autopep8/tslint fix
+fix: fixpy fixjs  ## Run autopep8/tslint fix
+
+fixpy:  ## run autopep8 fix
 	autopep8 --in-place -r -a -a ipyregulartable/ setup.py
+
+fixjs:  ## run tslint fix
 	cd js; yarn fix
 
 annotate: ## MyPy type annotation check
@@ -63,4 +69,4 @@ help:
 print-%:
 	@echo '$*=$($*)'
 
-.PHONY: clean install serverextension labextension test tests help docs dist js
+.PHONY: clean install serverextension labextension test tests help docs dist js fix lint fixpy fixjs lintpy lintjs

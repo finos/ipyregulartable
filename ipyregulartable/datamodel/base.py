@@ -10,6 +10,20 @@ from six import with_metaclass
 
 
 class DataModel(with_metaclass(ABCMeta)):
+    _widget = None
+
+    def _setWidget(self, widget):
+        self._widget = widget
+
+    def draw(self):
+        '''Call back to parent widget's `draw` method to
+        rerender the table'''
+        if self._widget is not None:
+            self._widget.draw()
+
+    def setData(self, data):
+        '''optional setData method'''
+
     @abstractmethod
     def editable(self, x, y):
         '''Given an (x,y) coordinate, return if its editable or not'''

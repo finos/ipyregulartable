@@ -50,3 +50,11 @@ class NumpyDataModel(DataModel):
 
     def write(self, x, y, value):
         self._data[y, x] = value
+
+    def setData(self, data):
+        if isinstance(data, np.ndarray):
+            self._data = data
+        elif data is not None:
+            self._data = np.array(data)
+        else:
+            raise Exception('Cannot set non-numpy data for numpy data model')
