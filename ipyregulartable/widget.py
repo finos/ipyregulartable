@@ -49,7 +49,6 @@ class RegularTableWidget(DOMWidget):
             self.datamodel = DataFrameDataModel(datamodel)
         else:
             raise Exception('Unsupported data model: {}'.format(datamodel))
-        
 
         # for click events
         self._click_handlers = CallbackDispatcher()

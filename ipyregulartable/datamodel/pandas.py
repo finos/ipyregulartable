@@ -5,10 +5,7 @@
 # This file is part of the jupyterlab_templates library, distributed under the terms of
 # the Apache License 2.0.  The full license can be found in the LICENSE file.
 #
-import numpy as np
 import pandas as pd
-import string
-from random import choice, sample, randint, random
 from .base import DataModel
 
 
@@ -29,7 +26,7 @@ class SeriesDataModel(DataModel):
 
     def rowheaders(self, x0, y0, x1, y1):
         '''return column headers for data'''
-        return [[str(_)] for _ in self._data.index.values[y0:y1+1]]
+        return [[str(_)] for _ in self._data.index.values[y0:y1 + 1]]
 
     def columnheaders(self, x0, y0, x1, y1):
         '''return column headers for data'''
@@ -60,13 +57,13 @@ class DataFrameDataModel(DataModel):
     def rowheaders(self, x0, y0, x1, y1):
         '''return column headers for data'''
         if isinstance(self._data.index, pd.MultiIndex):
-            return self._data.index.values[y0:y1+1].tolist()
-        return [[str(_)] for _ in self._data.index.values[y0:y1+1]]
+            return self._data.index.values[y0:y1 + 1].tolist()
+        return [[str(_)] for _ in self._data.index.values[y0:y1 + 1]]
 
     def columnheaders(self, x0, y0, x1, y1):
         '''return column headers for data'''
         if isinstance(self._data.columns, pd.MultiIndex):
-            return self._data.columns.values[x0:x1+1].tolist()
+            return self._data.columns.values[x0:x1 + 1].tolist()
         return [[str(c)] for c in self._data.columns]
 
     def dataslice(self, x0, y0, x1, y1):
