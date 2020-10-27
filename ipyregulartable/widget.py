@@ -8,7 +8,7 @@
 import numpy as np
 import pandas as pd
 from ipywidgets import DOMWidget, CallbackDispatcher
-from traitlets import Instance, Unicode, Dict, Bool, Integer
+from traitlets import observe, Instance, Unicode, Dict, Bool, Integer
 from .datamodel import DataModel, TwoBillionRows, NumpyDataModel, SeriesDataModel, DataFrameDataModel
 from ._version import __version__
 
@@ -50,6 +50,9 @@ class RegularTableWidget(DOMWidget):
         else:
             raise Exception('Unsupported data model: {}'.format(datamodel))
 
+        # set self for draw callbacks
+        self.datamodel._setWidget(self)
+
         # for click events
         self._click_handlers = CallbackDispatcher()
 
@@ -70,6 +73,10 @@ class RegularTableWidget(DOMWidget):
 
     def edit(self, value):
         self._edit_handlers(self, value)
+
+    @observe('datamodel')
+    def _datamodel_changed(self, change):
+        self.draw()
 
     def _handle_custom_msg(self, content, buffers=None):
         if content.get('event', '') == 'click':
@@ -104,3 +111,7 @@ class RegularTableWidget(DOMWidget):
 
     def draw(self):
         self.send({"type": "draw"})
+
+    def setData(self, data):
+        self.datamodel.setData(data)
+        self.draw()
