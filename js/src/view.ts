@@ -11,6 +11,7 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 import {DOMWidgetView} from "@jupyter-widgets/base";
 import {evaluate} from "mathjs";
+
 import "regular-table";
 import "regular-table/dist/css/material.css";
 
@@ -62,6 +63,7 @@ class RegularTableView extends DOMWidgetView {
     const styler = this.model.get("styler");
 
     this.table.addStyleListener(() => {
+      let errors = "";
       let key;
       for ( const elemkey of Object.keys(styler)) {
         switch (elemkey) {
@@ -115,14 +117,17 @@ class RegularTableView extends DOMWidgetView {
                 elem.style.cssText += styler[elemkey].style[i];
               }
             } catch (error) {
-              // eslint-disable-next-line no-console
-              console.log(`Expression: ${expression}`);
-              // eslint-disable-next-line no-console
-              console.log(error);
+              errors += `Expression: ${expression}\n`;
+              errors += `${error}\n`;
             }
             i++;
           }
         }
+      }
+      if (errors !== "") {
+        // eslint-disable-next-line no-console
+        console.log(errors);
+        this.send({event: "errors", value: errors});
       }
     });
     this.table.draw();
@@ -131,6 +136,7 @@ class RegularTableView extends DOMWidgetView {
   public _handle_css(): void {
     const css = this.model.get("css");
     let key;
+    let errors = "";
     for ( const elemkey of Object.keys(css)) {
       switch (elemkey) {
       case "table":
@@ -162,11 +168,22 @@ class RegularTableView extends DOMWidgetView {
       if (!css[elemkey]){
         break;
       }
-      for (const elem of this.table.querySelectorAll(key)) {
-        elem.style.cssText = css[elemkey];
+      if (key){
+        for (const elem of this.table.querySelectorAll(key)) {
+          try {
+            elem.style.cssText = css[elemkey];
+          } catch (error) {
+            errors += `${error}\n`;
+          }
+        }
       }
     }
     this.table.draw();
+    if (errors !== "") {
+      // eslint-disable-next-line no-console
+      console.log(errors);
+      this.send({event: "errors", value: errors});
+    }
   }
 
   public _handle_data(): void {

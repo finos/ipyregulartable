@@ -31,7 +31,7 @@ class RegularTableWidget(DOMWidget):
     _data = Dict(default_value={}).tag(sync=True)
     _editable = Bool(default_value=False).tag(sync=True)
 
-    def __init__(self, datamodel=None):
+    def __init__(self, datamodel=None, log_js_errors=True):
         # super
         super(RegularTableWidget, self).__init__()
 
@@ -62,6 +62,9 @@ class RegularTableWidget(DOMWidget):
         # hook in custom messages
         self.on_msg(self._handle_custom_msg)
 
+        # log js errors?
+        self._log_js_errors = log_js_errors
+
     def on_click(self, callback, remove=False):
         self._click_handlers.register_callback(callback, remove=remove)
 
@@ -78,6 +81,10 @@ class RegularTableWidget(DOMWidget):
     def _datamodel_changed(self, change):
         self.draw()
 
+    def _jserrors(self, error):
+        if error and self._log_js_errors:
+            raise Exception(error)
+
     def _handle_custom_msg(self, content, buffers=None):
         if content.get('event', '') == 'click':
             self.click(content.get('value', ''))
@@ -91,6 +98,9 @@ class RegularTableWidget(DOMWidget):
         elif content.get('event', '') == 'write':
             self.datamodel.write(*content.get('value', []))
             self.edit(content.get('value', ''))
+
+        elif content.get('event', '') == 'errors':
+            self._jserrors(content.get('value', ''))
 
     def dataslice(self, x0, y0, x1, y1):
         self._data = {"num_rows": self.datamodel.rows(),
