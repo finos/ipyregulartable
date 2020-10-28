@@ -8,9 +8,23 @@
 import numpy as np
 import pandas as pd
 from ipywidgets import DOMWidget, CallbackDispatcher
-from traitlets import observe, Instance, Unicode, Dict, Bool, Integer
+from traitlets import observe, Instance, Unicode, Dict, Bool, Integer, validate, TraitError
 from .datamodel import DataModel, TwoBillionRows, NumpyDataModel, SeriesDataModel, DataFrameDataModel
 from ._version import __version__
+
+
+_STYLER_KEYS = (
+    'table',
+    'thead',
+    'tr',
+    'th',
+    'td',
+    'theadtr',
+    'theadth',
+    'tbody',
+    'tbodytr',
+    'tbodyth',
+)
 
 
 class RegularTableWidget(DOMWidget):
@@ -125,3 +139,33 @@ class RegularTableWidget(DOMWidget):
     def setData(self, data):
         self.datamodel.setData(data)
         self.draw()
+
+    @validate("css")
+    def _validate_css(self, proposal):
+        proposal = proposal['value']
+
+        if not isinstance(proposal, dict):
+            raise TraitError('css needs to be dict')
+
+        for key in proposal.keys():
+            if key not in _STYLER_KEYS:
+                raise TraitError('Unrecognized key: {}'.format(key))
+
+        return proposal
+
+    @validate("styler")
+    def _validate_styler(self, proposal):
+        proposal = proposal['value']
+
+        if not isinstance(proposal, dict):
+            raise TraitError('styler needs to be dict')
+
+        for key in proposal.keys():
+            if key not in _STYLER_KEYS:
+                raise TraitError('Unrecognized key: {}'.format(key))
+            if not isinstance(proposal[key], dict):
+                raise TraitError('styler values need to be dict')
+            if not list(proposal[key].keys()) == ['expression', 'style']:
+                raise TraitError('Invalid trait: {}'.format(proposal[key]))
+
+        return proposal
