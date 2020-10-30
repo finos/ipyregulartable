@@ -78,6 +78,30 @@ the nbextension:
 jupyter nbextension enable --py [--sys-prefix|--user|--system] ipyregulartable
 ```
 
+## Data Model
+It is very easy to construct a custom data model. Just implement the abstract methods on the base `DataModel` class.
+
+```python
+class DataModel(with_metaclass(ABCMeta)):
+    @abstractmethod
+    def editable(self, x, y):
+        '''Given an (x,y) coordinate, return if its editable or not'''
+
+    @abstractmethod
+    def rows(self):
+        '''return total number of rows'''
+
+    @abstractmethod
+    def columns(self):
+        '''return total number of columns'''
+
+    @abstractmethod
+    def dataslice(self, x0, y0, x1, y1):
+        '''get slice of data from (x0, y0) to (x1, y1) inclusive'''
+```
+
+Any `DataModel` object can be provided as the argument to `RegularTableWidget`. Note that `regular-table` may make probing calls of the form (0, 0, 0, 0) to assess data limits. 
+
 
 ## Development
 
