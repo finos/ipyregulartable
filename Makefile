@@ -4,7 +4,7 @@ testjs: ## Run js tests
 	cd js; yarn test
 
 testpy: ## Run python tests
-	python3.7 -m pytest -v ipyregulartable/tests --cov=ipyregulartable
+	python3.7 -m pytest -v ipyregulartable/tests --cov=ipyregulartable --junitxml=python_junit.xml --cov-report=xml --cov-branch
 
 lint: lintpy lintjs  ## run linters
 
