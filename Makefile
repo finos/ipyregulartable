@@ -4,12 +4,12 @@ testjs: ## Run js tests
 	cd js; yarn test
 
 testpy: ## Run python tests
-	python3.7 -m pytest -v ipyregulartable/tests --cov=ipyregulartable --junitxml=python_junit.xml --cov-report=xml --cov-branch
+	python -m pytest -v ipyregulartable/tests --cov=ipyregulartable --junitxml=python_junit.xml --cov-report=xml --cov-branch
 
 lint: lintpy lintjs  ## run linters
 
 lintpy: ## run python linter
-	flake8 ipyregulartable setup.py
+	python -m flake8 ipyregulartable setup.py
 
 lintjs: ## run js linter
 	cd js; yarn lint
@@ -17,16 +17,16 @@ lintjs: ## run js linter
 fix: fixpy fixjs  ## Run autopep8/tslint fix
 
 fixpy:  ## run autopep8 fix
-	autopep8 --in-place -r -a -a ipyregulartable/ setup.py
+	python -m autopep8 --in-place -r -a -a ipyregulartable/ setup.py
 
 fixjs:  ## run tslint fix
 	cd js; yarn fix
 
 annotate: ## MyPy type annotation check
-	mypy -s ipyregulartable
+	python -m mypy -s ipyregulartable
 
 annotate_l: ## MyPy type annotation check - count only
-	mypy -s ipyregulartable | wc -l
+	python -m mypy -s ipyregulartable | wc -l
 
 clean: ## clean the repository
 	find . -name "__pycache__" | xargs  rm -rf
@@ -41,24 +41,24 @@ docs:  ## make documentation
 	open ./docs/_build/html/index.html
 
 install:  ## install to site-packages
-	pip3 install .
+	python -m pip install .
 
 serverextension: install ## enable serverextension
-	jupyter serverextension enable --py ipyregulartable
+	python -m jupyter serverextension enable --py ipyregulartable
 
 js:  ## build javascript
 	cd js; yarn
 	cd js; yarn build
 
 labextension: js ## enable labextension
-	cd js; jupyter labextension install .
+	cd js; python -m jupyter labextension install .
 
 dist: js  ## create dists
 	rm -rf dist build
-	python3.7 setup.py sdist bdist_wheel
+	python setup.py sdist bdist_wheel
 
 publish: dist  ## dist to pypi and npm
-	twine check dist/*.{tar.gz,whl} && twine upload dist/*.{tar.gz,whl}
+	python -m twine check dist/*.{tar.gz,whl} && python -m twine upload dist/*.{tar.gz,whl}
 	cd js; npm publish
 
 # Thanks to Francoise at marmelab.com for this
