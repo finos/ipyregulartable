@@ -18,7 +18,6 @@ import {
   IJupyterWidgetRegistry,
 } from "@jupyter-widgets/base";
 
-import * as widgetExports from "./widget";
 
 import {
   MODULE_VERSION,
@@ -44,7 +43,7 @@ export default examplePlugin;
  */
 function activateWidgetExtension(app: Application<Widget>, registry: IJupyterWidgetRegistry): void {
   registry.registerWidget({
-    exports: widgetExports,
+    exports: async () => await import(/* webpackChunkName: "ipyregulartable" */ "./widget"),
     name: "ipyregulartable",
     version: MODULE_VERSION,
   });

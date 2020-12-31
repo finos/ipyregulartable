@@ -3,7 +3,7 @@
     "declaration": true,
     "esModuleInterop":true,
     "lib": ["es2015", "dom"],
-    "module": "commonjs",
+    "module": "esnext",
     "moduleResolution": "node",
     "noUnusedLocals": true,
     "outDir": "./lib",
@@ -13,7 +13,7 @@
     "sourceMap": true,
     "strict": true,
     "strictPropertyInitialization": false,
-    "target": "ES6",
+    "target": "es2015",
     "types": ["jest", "node"]
   },
   "include": [
