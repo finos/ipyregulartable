@@ -5,14 +5,13 @@
 # This file is part of the jupyterlab_templates library, distributed under the terms of
 # the Apache License 2.0.  The full license can be found in the LICENSE file.
 #
-from setuptools import setup, find_packages
 from codecs import open
 from os import path
 
-from jupyter_packaging import (
-    create_cmdclass, install_npm, ensure_targets,
-    combine_commands, ensure_python, get_version
-)
+from jupyter_packaging import (combine_commands, create_cmdclass,
+                               ensure_python, ensure_targets, get_version,
+                               install_npm)
+from setuptools import find_packages, setup
 
 ensure_python(('2.7', '>=3.7'))
 pjoin = path.join
@@ -28,6 +27,19 @@ requires = [
     "ipywidgets>=7.5.1",
     "numpy",
     "pandas>=0.22",
+]
+
+requires_dev = requires + [
+    "black>=20.",
+    "bump2version>=1.0.0",
+    "flake8>=3.7.8",
+    "flake8-black>=0.2.1",
+    "jupyter_packaging",
+    "mock",
+    "pytest>=4.3.0",
+    "pytest-cov>=2.6.1",
+    "Sphinx>=1.8.4",
+    "sphinx-markdown-builder>=0.5.2",
 ]
 
 nb_path = pjoin(here, name, 'nbextension', 'static')
@@ -86,7 +98,7 @@ setup(
     packages=find_packages(exclude=['tests', ]),
     install_requires=requires,
     extras_require={
-        'dev': requires + ['pytest', 'pytest-cov', 'pylint', 'flake8', 'bump2version', 'autopep8', 'mock']
+        'dev': requires_dev,
     },
     include_package_data=True,
     data_files=[
