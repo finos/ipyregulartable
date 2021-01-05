@@ -8,30 +8,45 @@
 import numpy as np
 import pandas as pd
 from ipywidgets import DOMWidget, CallbackDispatcher
-from traitlets import observe, Instance, Unicode, Dict, Bool, Integer, validate, TraitError
-from .datamodel import DataModel, TwoBillionRows, NumpyDataModel, SeriesDataModel, DataFrameDataModel
+from traitlets import (
+    observe,
+    Instance,
+    Unicode,
+    Dict,
+    Bool,
+    Integer,
+    validate,
+    TraitError,
+)
+from .datamodel import (
+    DataModel,
+    TwoBillionRows,
+    NumpyDataModel,
+    SeriesDataModel,
+    DataFrameDataModel,
+)
 from ._version import __version__
 
 
 _STYLER_KEYS = (
-    'table',
-    'thead',
-    'tr',
-    'th',
-    'td',
-    'theadtr',
-    'theadth',
-    'tbody',
-    'tbodytr',
-    'tbodyth',
+    "table",
+    "thead",
+    "tr",
+    "th",
+    "td",
+    "theadtr",
+    "theadth",
+    "tbody",
+    "tbodytr",
+    "tbodyth",
 )
 
 
 class RegularTableWidget(DOMWidget):
-    _model_name = Unicode('RegularTableModel').tag(sync=True)
+    _model_name = Unicode("RegularTableModel").tag(sync=True)
     _model_module = Unicode("ipyregulartable").tag(sync=True)
     _model_module_version = Unicode("^" + __version__).tag(sync=True)
-    _view_name = Unicode('RegularTableView').tag(sync=True)
+    _view_name = Unicode("RegularTableView").tag(sync=True)
     _view_module = Unicode("ipyregulartable").tag(sync=True)
     _view_module_version = Unicode("^" + __version__).tag(sync=True)
 
@@ -62,7 +77,7 @@ class RegularTableWidget(DOMWidget):
         elif isinstance(datamodel, pd.DataFrame):
             self.datamodel = DataFrameDataModel(datamodel)
         else:
-            raise Exception('Unsupported data model: {}'.format(datamodel))
+            raise Exception("Unsupported data model: {}".format(datamodel))
 
         # set self for draw callbacks
         self.datamodel._setWidget(self)
@@ -91,7 +106,7 @@ class RegularTableWidget(DOMWidget):
     def edit(self, value):
         self._edit_handlers(self, value)
 
-    @observe('datamodel')
+    @observe("datamodel")
     def _datamodel_changed(self, change):
         self.draw()
 
@@ -100,28 +115,30 @@ class RegularTableWidget(DOMWidget):
             raise Exception(error)
 
     def _handle_custom_msg(self, content, buffers=None):
-        if content.get('event', '') == 'click':
-            self.click(content.get('value', ''))
+        if content.get("event", "") == "click":
+            self.click(content.get("value", ""))
 
-        elif content.get('event', '') == 'dataslice':
-            self.dataslice(*content.get('value', []))
+        elif content.get("event", "") == "dataslice":
+            self.dataslice(*content.get("value", []))
 
-        elif content.get('event', '') == 'editable':
-            self.editable(*content.get('value', []))
+        elif content.get("event", "") == "editable":
+            self.editable(*content.get("value", []))
 
-        elif content.get('event', '') == 'write':
-            self.datamodel.write(*content.get('value', []))
-            self.edit(content.get('value', ''))
+        elif content.get("event", "") == "write":
+            self.datamodel.write(*content.get("value", []))
+            self.edit(content.get("value", ""))
 
-        elif content.get('event', '') == 'errors':
-            self._jserrors(content.get('value', ''))
+        elif content.get("event", "") == "errors":
+            self._jserrors(content.get("value", ""))
 
     def dataslice(self, x0, y0, x1, y1):
-        self._data = {"num_rows": self.datamodel.rows(),
-                      "num_columns": self.datamodel.columns(),
-                      "column_headers": self.datamodel.columnheaders(x0, y0, x1, y1),
-                      "row_headers": self.datamodel.rowheaders(x0, y0, x1, y1),
-                      "data": self.datamodel.dataslice(x0, y0, x1, y1)}
+        self._data = {
+            "num_rows": self.datamodel.rows(),
+            "num_columns": self.datamodel.columns(),
+            "column_headers": self.datamodel.columnheaders(x0, y0, x1, y1),
+            "row_headers": self.datamodel.rowheaders(x0, y0, x1, y1),
+            "data": self.datamodel.dataslice(x0, y0, x1, y1),
+        }
         self.post({"type": "data"})
         return self._data
 
@@ -142,30 +159,30 @@ class RegularTableWidget(DOMWidget):
 
     @validate("css")
     def _validate_css(self, proposal):
-        proposal = proposal['value']
+        proposal = proposal["value"]
 
         if not isinstance(proposal, dict):
-            raise TraitError('css needs to be dict')
+            raise TraitError("css needs to be dict")
 
         for key in proposal.keys():
             if key not in _STYLER_KEYS:
-                raise TraitError('Unrecognized key: {}'.format(key))
+                raise TraitError("Unrecognized key: {}".format(key))
 
         return proposal
 
     @validate("styler")
     def _validate_styler(self, proposal):
-        proposal = proposal['value']
+        proposal = proposal["value"]
 
         if not isinstance(proposal, dict):
-            raise TraitError('styler needs to be dict')
+            raise TraitError("styler needs to be dict")
 
         for key in proposal.keys():
             if key not in _STYLER_KEYS:
-                raise TraitError('Unrecognized key: {}'.format(key))
+                raise TraitError("Unrecognized key: {}".format(key))
             if not isinstance(proposal[key], dict):
-                raise TraitError('styler values need to be dict')
-            if not list(proposal[key].keys()) == ['expression', 'style']:
-                raise TraitError('Invalid trait: {}'.format(proposal[key]))
+                raise TraitError("styler values need to be dict")
+            if not list(proposal[key].keys()) == ["expression", "style"]:
+                raise TraitError("Invalid trait: {}".format(proposal[key]))
 
         return proposal

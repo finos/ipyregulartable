@@ -17,7 +17,7 @@ lintjs: ## run js linter
 fix: fixpy fixjs  ## Run autopep8/tslint fix
 
 fixpy:  ## run autopep8 fix
-	python -m autopep8 --in-place -r -a -a ipyregulartable/ setup.py
+	python -m black ipyregulartable/ setup.py
 
 fixjs:  ## run tslint fix
 	cd js; yarn fix
@@ -56,10 +56,11 @@ labextension: js ## enable labextension
 dist: js  ## create dists
 	rm -rf dist build
 	python setup.py sdist bdist_wheel
+	python -m twine check dist/*
 
 publish: dist  ## dist to pypi and npm
-	python -m twine check dist/*.{tar.gz,whl} && python -m twine upload dist/*.{tar.gz,whl}
-	cd js; npm publish
+	python -m twine upload dist/* --skip-existing
+	cd js; npm publish || echo "can't publish - might already exist"
 
 # Thanks to Francoise at marmelab.com for this
 .DEFAULT_GOAL := help
