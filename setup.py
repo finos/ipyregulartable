@@ -8,9 +8,14 @@
 from codecs import open
 from os import path
 
-from jupyter_packaging import (combine_commands, create_cmdclass,
-                               ensure_python, ensure_targets, get_version,
-                               install_npm)
+from jupyter_packaging import (
+    combine_commands,
+    create_cmdclass,
+    ensure_python,
+    ensure_targets,
+    get_version,
+    install_npm,
+)
 from setuptools import find_packages, setup
 
 ensure_python(("2.7", ">=3.7"))
