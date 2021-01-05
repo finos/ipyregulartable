@@ -16,37 +16,37 @@ class DataModel(with_metaclass(ABCMeta)):
         self._widget = widget
 
     def draw(self):
-        '''Call back to parent widget's `draw` method to
-        rerender the table'''
+        """Call back to parent widget's `draw` method to
+        rerender the table"""
         if self._widget is not None:
             self._widget.draw()
 
     def setData(self, data):
-        '''optional setData method'''
+        """optional setData method"""
 
     @abstractmethod
     def editable(self, x, y):
-        '''Given an (x,y) coordinate, return if its editable or not'''
+        """Given an (x,y) coordinate, return if its editable or not"""
 
     @abstractmethod
     def rows(self):
-        '''return total number of rows'''
+        """return total number of rows"""
 
     @abstractmethod
     def columns(self):
-        '''return total number of columns'''
+        """return total number of columns"""
 
     @abstractmethod
     def dataslice(self, x0, y0, x1, y1):
-        '''get slice of data from (x0, y0) to (x1, y1) inclusive'''
+        """get slice of data from (x0, y0) to (x1, y1) inclusive"""
 
     def rowheaders(self, x0, y0, x1, y1):
-        '''return column headers for data'''
+        """return column headers for data"""
         return [[str(_)] for _ in range(y0, y1)]
 
     def columnheaders(self, x0, y0, x1, y1):
-        '''return column headers for data'''
+        """return column headers for data"""
         return [[str(_)] for _ in range(x0, x1)]
 
     def write(self, x, y, value):
-        '''write event'''
+        """write event"""
