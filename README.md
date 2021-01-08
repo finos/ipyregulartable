@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-<a href="https://github.com/jpmorganchase/ipyregulartable/workflows/Build%20Status/badge.svg?branch=main"><img alt="Build Status" src="https://github.com/jpmorganchase/ipyregulartable/actions?query=workflow%3A%22Build+Status"></a>
+<a href="https://github.com/jpmorganchase/ipyregulartable/actions?query=workflow%3A%22Build+Status"><img alt="Build Status" src="https://github.com/jpmorganchase/ipyregulartable/workflows/Build%20Status/badge.svg?branch=main"></a>
 <a href="https://codecov.io/gh/jpmorganchase/ipyregulartable"><img alt="Coverage" src="https://codecov.io/gh/jpmorganchase/ipyregulartable/branch/main/graph/badge.svg"></a>
 <a href="https://pypi.python.org/pypi/ipyregulartable"><img alt="PyPI Version" src="https://img.shields.io/pypi/v/ipyregulartable.svg?color=brightgreen&style=flat-square"></a>
 <a href="https://www.npmjs.com/package/ipyregulartable"><img alt="NPM Version" src="https://img.shields.io/npm/v/ipyregulartable.svg?color=brightgreen&style=flat-square"></a>
