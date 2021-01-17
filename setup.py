@@ -35,7 +35,7 @@ requires = [
 ]
 
 requires_dev = requires + [
-    "black>=20.8",
+    "black>=20.8b1",
     "bump2version>=1.0.0",
     "flake8>=3.7.8",
     "flake8-black>=0.2.1",
