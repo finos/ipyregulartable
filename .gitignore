@@ -160,3 +160,4 @@ python_junit.xml
 .autoversion
 docs/examples/ipyregulartable
 .vscode
+.mypy_cache
