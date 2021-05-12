@@ -5131,9 +5131,9 @@ map-visit@^1.0.0:
     object-visit "^1.0.0"
 
 mathjs@^7.5.0:
-  version "7.5.0"
-  resolved "https://registry.yarnpkg.com/mathjs/-/mathjs-7.5.0.tgz#1405c04c547150bbf1236e43147a829185c37428"
-  integrity sha512-fSl/f4XmXSkc217jaExXBbl1qG792yH9X9d03jfJTMijPvA/C0slTymCCeOcLkKXOSzd0L5l60iY5kwTMExjMA==
+  version "7.5.1"
+  resolved "https://registry.yarnpkg.com/mathjs/-/mathjs-7.5.1.tgz#eb125295310a99ddcaf6145c47b09aab36e48274"
+  integrity sha512-H2q/Dq0qxBLMw+G84SSXmGqo/znihuxviGgAQwAcyeFLwK2HksvSGNx4f3dllZF51bWOnu2op60VZxH2Sb51Pw==
   dependencies:
     complex.js "^2.0.11"
     decimal.js "^10.2.1"
