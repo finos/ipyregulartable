@@ -11,13 +11,13 @@
  
  // Custom webpack rules
  const rules = [
-   { test: /\.ts$/, loader: 'ts-loader' },
-   { test: /\.js$/, loader: 'source-map-loader' },
-   { test: /\.css$/, use: ['style-loader', 'css-loader']}
+   { test: /\.js(x?)$/, loader: 'babel-loader' },
+   { test: /\.less$/, use: ['css-loader', 'less-loader']},
+   { test: /\.css$/, use: ['css-loader']}
  ];
  
  const resolve = {
-   extensions: [".js"]
+   extensions: [".js", ".jsx"]
  };
  
  module.exports = [

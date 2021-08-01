@@ -1,0 +1,34 @@
+
+:host {
+    @import "regular-table/src/less/material.less";
+
+    regular-table {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+    
+    regular-table tbody tr td.mouse-selected-area {
+        background-color: #2771a8 !important;
+        color: white;
+    }
+
+    .stripes tbody tr:nth-child(odd) td {
+        background-color: #eaedef;
+    }
+    
+    .stripes tbody tr:nth-child(even) td {
+        background-color: white;
+    }
+    
+    .reverse-stripes tbody tr:nth-child(odd) td {
+        background-color: white;
+    }
+    
+    .reverse-stripes tbody tr:nth-child(even) td {
+        background-color: #eaedef;
+    }
+}
+    

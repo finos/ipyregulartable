@@ -7,14 +7,6 @@
  *
  */
 import {
-  Application, IPlugin,
-} from "@lumino/application";
-
-import {
-  Widget,
-} from "@lumino/widgets";
-
-import {
   IJupyterWidgetRegistry,
 } from "@jupyter-widgets/base";
 
