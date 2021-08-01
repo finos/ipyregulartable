@@ -6,15 +6,21 @@
  * the Apache License 2.0.  The full license can be found in the LICENSE file.
  *
  */
+
 module.exports = {
   presets: [
     [
-      '@babel/preset-env',
+      "@babel/preset-env",
       {
         targets: {
-          node: 'current'
-        }
-      }
-    ]
-  ]
+          chrome: "70",
+          ios: "13",
+        },
+        useBuiltIns: "usage",
+        corejs: 3,
+      },
+    ],
+  ],
+  sourceType: "unambiguous",
+  sourceMaps: true,
 };

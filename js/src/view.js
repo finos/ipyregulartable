@@ -6,9 +6,7 @@
  * the Apache License 2.0.  The full license can be found in the LICENSE file.
  *
  */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable @typescript-eslint/unbound-method */
 import {DOMWidgetView} from "@jupyter-widgets/base";
 import {evaluate} from "mathjs";
 
@@ -21,19 +19,19 @@ import "../css/widget.css";
 
 export
 class RegularTableView extends DOMWidgetView {
-  public table: any;
+  table;
 
-  public resolve: any = undefined;
-  public reject: any = undefined;
+  resolve = undefined;
+  reject = undefined;
 
-  public editable_resolve: any = undefined;
-  public editable_target: any = undefined;
+  editable_resolve = undefined;
+  editable_target = undefined;
 
-  public selected = {x: 0, y: 0};
-  public rows = 0;
-  public columns = 0;
+  selected = {x: 0, y: 0};
+  rows = 0;
+  columns = 0;
 
-  public render(): void {
+  render() {
     this.model.on("msg:custom", this._handle_msg, this);
     this.el.classList.add("ipyregulartable");
 
@@ -47,7 +45,7 @@ class RegularTableView extends DOMWidgetView {
     });
   }
 
-  public processPhosphorMessage(msg: any) {
+  processPhosphorMessage(msg) {
     super.processPhosphorMessage(msg);
     switch (msg.type) {
     case "resize":
@@ -59,7 +57,7 @@ class RegularTableView extends DOMWidgetView {
     }
   }
 
-  public _handle_styler(): void {
+  _handle_styler() {
     const styler = this.model.get("styler");
 
     this.table.addStyleListener(() => {
@@ -133,7 +131,7 @@ class RegularTableView extends DOMWidgetView {
     this.table.draw();
   }
 
-  public _handle_css(): void {
+  _handle_css() {
     const css = this.model.get("css");
     let key;
     let errors = "";
@@ -186,7 +184,7 @@ class RegularTableView extends DOMWidgetView {
     }
   }
 
-  public _handle_data(): void {
+  _handle_data() {
     if (this.resolve !== undefined && this.model.get("_data")) {
       const data = this.model.get("_data");
       this.resolve(data);
@@ -201,7 +199,7 @@ class RegularTableView extends DOMWidgetView {
     }
   }
 
-  public _handle_editable(): void {
+  _handle_editable() {
     if (this.editable_resolve !== undefined && this.model.get("_editable")) {
       this.editable_resolve(true);
       this.editable_resolve = undefined;
@@ -220,7 +218,7 @@ class RegularTableView extends DOMWidgetView {
           target.setAttribute("contenteditable", "false");
         });
 
-        target.addEventListener("keydown", (event: KeyboardEvent) => {
+        target.addEventListener("keydown", (event) => {
           if (event.keyCode === 13 && !event.shiftKey) {
             event.preventDefault();
             event.stopPropagation();
@@ -245,13 +243,13 @@ class RegularTableView extends DOMWidgetView {
     }
   }
 
-  public _handle_height(): void {
+  _handle_height() {
     this.el.style.height = `${this.model.get("height")}px`;
     this.table.style.height = `${this.model.get("height")}px`;
     this._handle_draw();
   }
 
-  public _handle_msg(msg: any): void {
+  _handle_msg(msg) {
     if (msg.type === "draw") {
       this._handle_draw();
     } else if (msg.type === "data") {
@@ -261,18 +259,18 @@ class RegularTableView extends DOMWidgetView {
     }
   }
 
-  public _handle_draw(): void {
+  _handle_draw() {
     // TODO
     this.table.draw();
   }
 
-  public _render(): void {
+  _render() {
     // render a regular-table
     this.table = document.createElement("regular-table");
     this.el.appendChild(this.table);
 
     // hook data model into python
-    this.table.setDataListener((x0: number, y0: number, x1: number, y1: number) => new Promise((resolve, reject) => {
+    this.table.setDataListener((x0, y0, x1, y1) => new Promise((resolve, reject) => {
       if (this.resolve !== undefined) {
         // existing outstanding promise
         this.reject();
@@ -287,7 +285,7 @@ class RegularTableView extends DOMWidgetView {
     }));
 
     // hook in click events
-    this.table.addEventListener("click", (event: MouseEvent) => {
+    this.table.addEventListener("click", (event) => {
       const meta = this.table.getMeta(event.target);
       this.selected.x = meta.x;
       this.selected.y = meta.y;
@@ -296,7 +294,7 @@ class RegularTableView extends DOMWidgetView {
     });
 
     // hook edit events into python
-    this.table.addEventListener("dblclick", (event: MouseEvent) => {
+    this.table.addEventListener("dblclick", (event) => {
       const meta = this.table.getMeta(event.target);
       event.preventDefault();
       event.stopPropagation();
@@ -317,7 +315,7 @@ class RegularTableView extends DOMWidgetView {
       });
     });
 
-    this.table.addEventListener("keydown", (event: KeyboardEvent) => {
+    this.table.addEventListener("keydown", (event) => {
       switch (event.keyCode) {
       // tab
       case 9:
@@ -351,13 +349,13 @@ class RegularTableView extends DOMWidgetView {
       }
     });
 
-    this.table.addEventListener("keyup", (event: KeyboardEvent) => {
+    this.table.addEventListener("keyup", (event) => {
       this.updateFocus();
       event.preventDefault();
     });
   }
 
-  public moveSelection(dx: number, dy: number) {
+  moveSelection(dx, dy) {
     const target = this.findActive();
     if (!target){
       return;
@@ -402,7 +400,7 @@ class RegularTableView extends DOMWidgetView {
     }
   }
 
-  public findActive() {
+  findActive() {
     const tds = this.table.querySelectorAll("td");
     for (const td of tds) {
       const meta = this.table.getMeta(td);
@@ -412,7 +410,7 @@ class RegularTableView extends DOMWidgetView {
     }
   }
 
-  public updateFocus() {
+  updateFocus() {
     const tds = this.table.querySelectorAll("td");
     for (const td of tds) {
       const meta = this.table.getMeta(td);
