@@ -18,7 +18,6 @@ module.exports = {
         },
       },
     ],
-    "@babel/preset-react",
   ],
   sourceType: "unambiguous",
   sourceMaps: true,

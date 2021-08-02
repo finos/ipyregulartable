@@ -10,9 +10,18 @@
         right: 0;
     }
     
-    regular-table tbody tr td.mouse-selected-area {
-        background-color: #2771a8 !important;
+    tbody tr td.mouse-selected-area {
+        background-color: #b2b5b6 !important;
         color: white;
+    }
+
+    td {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
     }
 
     .stripes tbody tr:nth-child(odd) td {
@@ -29,6 +38,10 @@
     
     .reverse-stripes tbody tr:nth-child(even) td {
         background-color: #eaedef;
+    }
+
+    table td.cursor {
+        background-color: #b2b5b6 !important;
     }
 }
     
