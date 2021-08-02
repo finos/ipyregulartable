@@ -3,25 +3,25 @@ import css from "../less/index.less";
 
 const ELEMENT_NAME = "regular-table-extras";
 
-const _ar = new Array(26).fill(0);
+const _ar = new Array(50).fill(0);
+const _a = "QWERTYUIOPASDFGHJKLZXCVBNM";
 
 const DATA = [
   _ar.map((val, index) => index),
-  "QWERTYUIOPASDFGHJKLZXCVBNM",
+  _ar.map(() => _a[Math.floor(Math.random() * 26)]),
   _ar.map(() => Math.random() > 0.5),
   _ar.map(() => Math.random()),
-  "QWERTYUIOPASDFGHJKLZXCVBNM",
+  _ar.map(() => _a[Math.floor(Math.random() * 26)]),
   _ar.map(() => Math.random() > 0.5),
   _ar.map(() => Math.random()),
 ];
 
 function getDataSlice(x0, y0, x1, y1) {
-  console.log(x0, y0, x1, y1);
   return {
     num_rows: DATA[0].length,
     num_columns: DATA.length,
-    row_headers: DATA[0].map((rec) => [`Row ${rec}`]),
-    column_headers: [1, 2, 3, 4, 5, 6, 7].map((rec) => [`Col ${rec}`]),
+    row_headers: DATA[0].slice(y0, y1).map((rec) => [`Row ${rec}`]),
+    column_headers: [1, 2, 3, 4, 5, 6, 7].slice(x0, x1).map((rec) => [`Col ${rec}`]),
     data: DATA.slice(x0, x1).map((col) => col.slice(y0, y1)),
   };
 }
@@ -122,12 +122,12 @@ export class TableElement extends HTMLElement {
     this.table.addStyleListener(this.styleListener.bind(this));
 
     // event listeners
-    this.table.addEventListener("click", this.handleClick.bind(this));
-    this.table.addEventListener("dblclick", this.handleDblClick.bind(this));
     this.table.addEventListener("mousedown", this.handleMousedown.bind(this));
     this.table.addEventListener("mouseover", this.handleMouseover.bind(this));
     this.table.addEventListener("mouseup", this.handleMouseup.bind(this));
     this.table.addEventListener("keydown", this.handleKeydown.bind(this));
+    this.table.addEventListener("click", this.handleClick.bind(this));
+    this.table.addEventListener("dblclick", this.handleDblClick.bind(this));
   }
 
   styleListener() {
@@ -141,8 +141,6 @@ export class TableElement extends HTMLElement {
 
     if (this.getAttribute("cursor") && meta) {
       this.moveCursor(meta);
-    } else {
-      this.state.cursor = {};
     }
     this.updateFocus();
   }
@@ -157,13 +155,12 @@ export class TableElement extends HTMLElement {
 
     // if allowing editing
     // TODO per column/row
-    if (meta && this.getAttribute("editable")) {
+    if (meta && target.tagName === "TD" && this.getAttribute("editable")) {
       // update cursor
       this.moveCursor(meta);
 
       // set editing and track original value
       this.state.editing.active = { x: meta.x, y: meta.y };
-      console.log("here1");
       this.state.editing.target = target;
       this.state.editing.original = target.textContent;
 
@@ -212,10 +209,17 @@ export class TableElement extends HTMLElement {
     // disable editing
     this.state.editing.target.removeAttribute("contenteditable");
 
+    // move cursor
+    this.moveCursor(this.state.editing.active);
+    // this.moveSelection(0, 1);
+    
     // blank out state
     this.state.editing.active = {};
     this.state.editing.target = null;
     this.state.editing.original = null;
+
+    // update focus
+    this.updateFocus();
   }
 
   handleMousedown(event) {
@@ -265,41 +269,41 @@ export class TableElement extends HTMLElement {
       } else {
         // TODO fire write
       }
+    } else {
+      // handle cursor moves, etc
+      switch (event.keyCode) {
+        // tab
+        case KEYCODES.TAB:
+          event.preventDefault();
+          if (event.shiftKey) {
+            this.moveSelection(-1, 0);
+          } else {
+            this.moveSelection(1, 0);
+          }
+          break;
+        // left arrow
+        case KEYCODES.LEFT:
+          event.preventDefault();
+          this.moveSelection(-1, 0, event.shiftKey);
+          break;
+        // up arrow
+        case KEYCODES.UP:
+          event.preventDefault();
+          this.moveSelection(0, -1, event.shiftKey);
+          break;
+        // right arrow
+        case KEYCODES.RIGHT:
+          event.preventDefault();
+          this.moveSelection(1, 0, event.shiftKey);
+          break;
+        // down arrow
+        case KEYCODES.DOWN:
+          event.preventDefault();
+          this.moveSelection(0, 1, event.shiftKey);
+          break;
+      }
+      this.updateFocus();
     }
-    console.log(event.keyCode);
-    // handle cursor moves, etc
-    switch (event.keyCode) {
-      // tab
-      case KEYCODES.TAB:
-        event.preventDefault();
-        if (event.shiftKey) {
-          this.moveSelection(-1, 0);
-        } else {
-          this.moveSelection(1, 0);
-        }
-        break;
-      // left arrow
-      case KEYCODES.LEFT:
-        event.preventDefault();
-        this.moveSelection(-1, 0);
-        break;
-      // up arrow
-      case KEYCODES.UP:
-        event.preventDefault();
-        this.moveSelection(0, -1);
-        break;
-      // right arrow
-      case KEYCODES.RIGHT:
-        event.preventDefault();
-        this.moveSelection(1, 0);
-        break;
-      // down arrow
-      case KEYCODES.DOWN:
-        event.preventDefault();
-        this.moveSelection(0, 1);
-        break;
-    }
-    this.updateFocus();
   }
 
   handleMouseover(event) {
@@ -333,6 +337,9 @@ export class TableElement extends HTMLElement {
     ) {
       this.state.selections.push(this.getSelection(meta));
       this.selectArea();
+
+      // update cursor to end position
+      this.moveCursor(meta);
     }
 
     this.state.selection = {};
@@ -394,25 +401,21 @@ export class TableElement extends HTMLElement {
   }
 
   moveCursor({x, y} = {}) {
+    console.log(`move: ${x} ${y}`);
     if (x !== undefined) {
       this.state.cursor.x = x;
     }
     if (y !== undefined) {
       this.state.cursor.y = y;
     }
-    console.log("here");
-    console.log(this.state.selection);
-    console.log(this.state.selection.x);
-    if (this.state.selection && this.state.selection.x !== undefined) {
-      this.selectArea(this.state.selections.concat([this.getSelection(this.state.cursor)]));
-    }
-
+    // if (this.state.selection && this.state.selection.x !== undefined) {
+    //   this.selectArea(this.state.selections.concat([this.getSelection(this.state.cursor)]));
+    // }
   }
 
   findActive({x, y} = {}) {
     x = x !== undefined ? x : this.state.cursor.x;
     y = y !== undefined ? y : this.state.cursor.y;
-
     const tds = this.table.querySelectorAll("td");
     for (const td of tds) {
       const meta = this.table.getMeta(td);
@@ -422,18 +425,43 @@ export class TableElement extends HTMLElement {
     }
   }
 
-  moveSelection(dx, dy) {
+  moveSelection(dx, dy, select) {
     const target = this.findActive();
     if (!target) {
       return;
     }
 
+    // clear selections
+    this.state.selections = [];
+
+    // get meta
     const meta = this.table.getMeta(target);
 
-    if (target.getAttribute("contenteditable") === "true") {
-      target.setAttribute("contenteditable", "false");
+    // end any editing
+    if (this.isEditing(meta)) {
+      this.doneEditing();
     }
 
+    // select if thats what we're doing
+    // grab initial position and then 
+    // create selection at end of block
+    if (select) {
+      console.log("select", this.state.selection)
+
+      if (!this.state.selection.x) {
+        // first time set selection block to meta
+        this.state.selection.x = meta.x;
+        this.state.selection.y = meta.y;
+        console.log("setting meta");
+      }
+    } else {
+      // reset
+      this.state.selection = {};
+    }
+
+    /**
+     * Horizontal moves
+     */
     if (dx !== 0) {
       // move cursor
       if (meta.x + dx < this.num_columns && 0 <= meta.x + dx) {
@@ -457,6 +485,9 @@ export class TableElement extends HTMLElement {
       }
     }
 
+    /**
+     * Vertical moves
+     */
     if (dy !== 0) {
       // move cursor
       if (meta.y + dy < this.num_rows && 0 <= meta.y + dy) {
@@ -478,6 +509,13 @@ export class TableElement extends HTMLElement {
           this.table.scrollToCell(meta.x0, 0, this.num_columns, this.num_rows);
         }
       }
+    }
+
+    // Handle selection
+    if (select) {
+      // create new selection from initial point
+      // as of starting to hold shift, to now.
+      this.selectArea([this.getSelection(this.state.cursor)]);
     }
   }
 
