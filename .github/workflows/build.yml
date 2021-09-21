@@ -9,7 +9,6 @@ on:
     # run on sunday nights
     - cron:  '0 0 * * 0'
 
-
 jobs:
   build:
     runs-on: ${{ matrix.os }}
