@@ -18,7 +18,7 @@ from jupyter_packaging import (
 )
 from setuptools import find_packages, setup
 
-ensure_python(("2.7", ">=3.7"))
+ensure_python(">=3.7")
 pjoin = path.join
 name = "ipyregulartable"
 here = path.abspath(path.dirname(__file__))
@@ -84,14 +84,13 @@ setup(
     author_email="t.paine154@gmail.com",
     license="Apache 2.0",
     classifiers=[
-        "Development Status :: 3 - Alpha",
-        "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 2.7",
+        "Development Status :: 4 - Beta",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Framework :: Jupyter",
+        "Framework :: Jupyter :: JupyterLab",
     ],
     platforms="Linux, Mac OS X, Windows",
     keywords=[
