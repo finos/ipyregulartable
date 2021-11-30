@@ -7,14 +7,6 @@
  *
  */
 import {
-  Application, IPlugin,
-} from "@lumino/application";
-
-import {
-  Widget,
-} from "@lumino/widgets";
-
-import {
   IJupyterWidgetRegistry,
 } from "@jupyter-widgets/base";
 
@@ -28,7 +20,7 @@ const EXTENSION_ID = "ipyregulartable";
 /**
  * The example plugin.
  */
-const examplePlugin: IPlugin<Application<Widget>, void> = {
+const examplePlugin = {
   activate: activateWidgetExtension,
   autoStart: true,
   id: EXTENSION_ID,
@@ -41,7 +33,7 @@ export default examplePlugin;
 /**
  * Activate the widget extension.
  */
-function activateWidgetExtension(app: Application<Widget>, registry: IJupyterWidgetRegistry): void {
+function activateWidgetExtension(app, registry) {
   registry.registerWidget({
     exports: async () => await import(/* webpackChunkName: "ipyregulartable" */ "./widget"),
     name: "ipyregulartable",

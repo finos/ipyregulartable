@@ -1,0 +1,44 @@
+
+:host {
+    @import "regular-table/src/less/material.less";
+
+    regular-table {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+    
+    tbody tr td.mouse-selected-area,
+    table td.cursor {
+        background-color: #b2b5b6 !important;
+        color: white;
+    }
+
+    td {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    .stripes tbody tr:nth-child(odd) td {
+        background-color: #eaedef;
+    }
+    
+    .stripes tbody tr:nth-child(even) td {
+        background-color: white;
+    }
+    
+    .reverse-stripes tbody tr:nth-child(odd) td {
+        background-color: white;
+    }
+    
+    .reverse-stripes tbody tr:nth-child(even) td {
+        background-color: #eaedef;
+    }
+}
+    
