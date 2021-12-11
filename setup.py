@@ -82,13 +82,14 @@ setup(
     author_email="t.paine154@gmail.com",
     license="Apache 2.0",
     classifiers=[
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 4 - Beta",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Framework :: Jupyter",
+        "Framework :: Jupyter :: JupyterLab",
     ],
     platforms="Linux, Mac OS X, Windows",
     keywords=[
