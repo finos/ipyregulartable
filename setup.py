@@ -11,14 +11,12 @@ from os import path
 from jupyter_packaging import (
     combine_commands,
     create_cmdclass,
-    ensure_python,
     ensure_targets,
     get_version,
     install_npm,
 )
 from setuptools import find_packages, setup
 
-ensure_python(("2.7", ">=3.7"))
 pjoin = path.join
 name = "ipyregulartable"
 here = path.abspath(path.dirname(__file__))
@@ -55,23 +53,30 @@ jstargets = [
     pjoin(jshere, "lib", "index.js"),
 ]
 
-package_data_spec = {name: ["nbextension/static/*.*js*", "labextension/*.tgz"]}
-
-data_files_spec = [
+data_spec = [
+    # Lab extension installed by default:
     ("share/jupyter/nbextensions/ipyregulartable", nb_path, "*.js*"),
-    ("share/jupyter/lab/extensions", lab_path, "*.tgz"),
     ("etc/jupyter/nbconfig/notebook.d", here, "ipyregulartable.json"),
+    (
+        "share/jupyter/labextensions/ipyregulartable",
+        "ipyregulartable/labextension",
+        "**",
+    ),
+    # Config to enable server extension by default:
+    ("etc/jupyter/jupyter_server_config.d", "jupyter-config", "*.json"),
 ]
 
-
-cmdclass = create_cmdclass(
-    "jsdeps", package_data_spec=package_data_spec, data_files_spec=data_files_spec
-)
-cmdclass["jsdeps"] = combine_commands(
+cmdclass = create_cmdclass("js", data_files_spec=data_spec)
+cmdclass["js"] = combine_commands(
     install_npm(jshere, build_cmd="build:all"),
-    ensure_targets(jstargets),
+    ensure_targets(
+        [
+            pjoin(jshere, "lib", "index.js"),
+            pjoin(jshere, "style", "index.css"),
+            pjoin(here, "ipyregulartable", "labextension", "package.json"),
+        ]
+    ),
 )
-
 
 setup(
     name=name,
@@ -84,14 +89,14 @@ setup(
     author_email="t.paine154@gmail.com",
     license="Apache 2.0",
     classifiers=[
-        "Development Status :: 3 - Alpha",
-        "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 2.7",
+        "Development Status :: 4 - Beta",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
         "Framework :: Jupyter",
+        "Framework :: Jupyter :: JupyterLab",
     ],
     platforms="Linux, Mac OS X, Windows",
     keywords=[
@@ -114,16 +119,6 @@ setup(
         "dev": requires_dev,
     },
     include_package_data=True,
-    data_files=[
-        (
-            "share/jupyter/nbextensions/ipyregulartable",
-            [
-                "ipyregulartable/nbextension/static/extension.js",
-                "ipyregulartable/nbextension/static/index.js",
-                "ipyregulartable/nbextension/static/index.js.map",
-            ],
-        ),
-        ("etc/jupyter/nbconfig/notebook.d", ["ipyregulartable.json"]),
-    ],
     zip_safe=False,
+    python_requires=">=3.7",
 )
