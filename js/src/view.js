@@ -6,9 +6,8 @@
  * the Apache License 2.0.  The full license can be found in the LICENSE file.
  *
  */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable default-case */
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable @typescript-eslint/unbound-method */
 import {DOMWidgetView} from "@jupyter-widgets/base";
 import {evaluate} from "mathjs";
 
@@ -16,24 +15,26 @@ import "regular-table";
 import "regular-table/dist/css/material.css";
 
 // Import the CSS
-import "../css/widget.css";
+import "../style/index.css";
 
+export class RegularTableView extends DOMWidgetView {
+  table;
 
-export
-class RegularTableView extends DOMWidgetView {
-  public table: any;
+  resolve = undefined;
 
-  public resolve: any = undefined;
-  public reject: any = undefined;
+  reject = undefined;
 
-  public editable_resolve: any = undefined;
-  public editable_target: any = undefined;
+  editable_resolve = undefined;
 
-  public selected = {x: 0, y: 0};
-  public rows = 0;
-  public columns = 0;
+  editable_target = undefined;
 
-  public render(): void {
+  selected = {x: 0, y: 0};
+
+  rows = 0;
+
+  columns = 0;
+
+  render() {
     this.model.on("msg:custom", this._handle_msg, this);
     this.el.classList.add("ipyregulartable");
 
@@ -47,26 +48,96 @@ class RegularTableView extends DOMWidgetView {
     });
   }
 
-  public processPhosphorMessage(msg: any) {
+  processPhosphorMessage(msg) {
     super.processPhosphorMessage(msg);
     switch (msg.type) {
-    case "resize":
-    case "after-show":
-      if (this.pWidget.isVisible) {
-        this._handle_height();
-        break;
-      }
+      case "resize":
+      case "after-show":
+        if (this.pWidget.isVisible) {
+          this._handle_height();
+          break;
+        }
     }
   }
 
-  public _handle_styler(): void {
+  _handle_styler() {
     const styler = this.model.get("styler");
 
     this.table.addStyleListener(() => {
       let errors = "";
       let key;
-      for ( const elemkey of Object.keys(styler)) {
+      Object.keys(styler).forEach((elemkey) => {
         switch (elemkey) {
+          case "table":
+          case "thead":
+          case "tbody":
+          case "tr":
+          case "th":
+          case "td": {
+            key = elemkey;
+            break;
+          }
+          case "theadtr": {
+            key = "thead tr";
+            break;
+          }
+          case "theadth": {
+            key = "thead th";
+            break;
+          }
+          case "tbodytr": {
+            key = "tbody tr";
+            break;
+          }
+          case "tbodyth": {
+            key = "tbody th";
+            break;
+          }
+        }
+
+        if (!styler[elemkey].expression) {
+          return;
+        }
+        this.table.querySelectorAll(key).forEach((elem) => {
+          let i = 0;
+
+          while (styler[elemkey].expression[i]) {
+            const meta = key !== "table" ? this.table.getMeta(elem) : {x: 0, y: 0};
+            const expression = styler[elemkey].expression[i].replace(/x/g, meta.x).replace(/y/g, meta.y).replace(/data/g, `"${elem.textContent}"`);
+            try {
+              if (evaluate(expression)) {
+                if (!elem.style.cssText) {
+                  // eslint-disable-next-line no-param-reassign
+                  elem.style.cssText = "";
+                }
+
+                // add new class
+                // eslint-disable-next-line no-param-reassign
+                elem.style.cssText += styler[elemkey].style[i];
+              }
+            } catch (error) {
+              errors += `Expression: ${expression}\n`;
+              errors += `${error}\n`;
+            }
+            i++;
+          }
+        });
+      });
+      if (errors !== "") {
+        // eslint-disable-next-line no-console
+        console.log(errors);
+        this.send({event: "errors", value: errors});
+      }
+    });
+    this.table.draw();
+  }
+
+  _handle_css() {
+    const css = this.model.get("css");
+    let key;
+    let errors = "";
+    Object.keys(css).forEach((elemkey) => {
+      switch (elemkey) {
         case "table":
         case "thead":
         case "tbody":
@@ -92,92 +163,21 @@ class RegularTableView extends DOMWidgetView {
           key = "tbody th";
           break;
         }
-        }
-
-        if (!styler[elemkey].expression){
-          break;
-        }
-        for (const elem of this.table.querySelectorAll(key)) {
-
-          let i = 0;
-
-          while (styler[elemkey].expression[i]) {
-            const meta = key !== "table" ? this.table.getMeta(elem) : {x: 0, y: 0};
-            const expression = styler[elemkey].expression[i]
-              .replace(/x/g, meta.x)
-              .replace(/y/g, meta.y)
-              .replace(/data/g, `"${elem.textContent}"`);
-            try {
-              if (evaluate(expression)){
-                if (!elem.style.cssText){
-                  elem.style.cssText = "";
-                }
-
-                // add new class
-                elem.style.cssText += styler[elemkey].style[i];
-              }
-            } catch (error) {
-              errors += `Expression: ${expression}\n`;
-              errors += `${error}\n`;
-            }
-            i++;
-          }
-        }
       }
-      if (errors !== "") {
-        // eslint-disable-next-line no-console
-        console.log(errors);
-        this.send({event: "errors", value: errors});
+      if (!css[elemkey]) {
+        return;
       }
-    });
-    this.table.draw();
-  }
-
-  public _handle_css(): void {
-    const css = this.model.get("css");
-    let key;
-    let errors = "";
-    for ( const elemkey of Object.keys(css)) {
-      switch (elemkey) {
-      case "table":
-      case "thead":
-      case "tbody":
-      case "tr":
-      case "th":
-      case "td": {
-        key = elemkey;
-        break;
-      }
-      case "theadtr": {
-        key = "thead tr";
-        break;
-      }
-      case "theadth": {
-        key = "thead th";
-        break;
-      }
-      case "tbodytr": {
-        key = "tbody tr";
-        break;
-      }
-      case "tbodyth": {
-        key = "tbody th";
-        break;
-      }
-      }
-      if (!css[elemkey]){
-        break;
-      }
-      if (key){
-        for (const elem of this.table.querySelectorAll(key)) {
+      if (key) {
+        this.table.querySelectorAll(key).forEach((elem) => {
           try {
+            // eslint-disable-next-line no-param-reassign
             elem.style.cssText = css[elemkey];
           } catch (error) {
             errors += `${error}\n`;
           }
-        }
+        });
       }
-    }
+    });
     this.table.draw();
     if (errors !== "") {
       // eslint-disable-next-line no-console
@@ -186,7 +186,7 @@ class RegularTableView extends DOMWidgetView {
     }
   }
 
-  public _handle_data(): void {
+  _handle_data() {
     if (this.resolve !== undefined && this.model.get("_data")) {
       const data = this.model.get("_data");
       this.resolve(data);
@@ -201,35 +201,31 @@ class RegularTableView extends DOMWidgetView {
     }
   }
 
-  public _handle_editable(): void {
+  _handle_editable() {
     if (this.editable_resolve !== undefined && this.model.get("_editable")) {
       this.editable_resolve(true);
       this.editable_resolve = undefined;
 
       const target = this.editable_target;
-      if (this.model.get("_editable") === true){
+      if (this.model.get("_editable") === true) {
         target.setAttribute("contenteditable", "true");
 
         target.addEventListener("focusout", () => {
           const meta = this.table.getMeta(target);
-          if (target.getAttribute("contenteditable") === "true"){
-            this.send({event: "write",
-              value: [meta.x, meta.y, target.textContent],
-            });
+          if (target.getAttribute("contenteditable") === "true") {
+            this.send({event: "write", value: [meta.x, meta.y, target.textContent]});
           }
           target.setAttribute("contenteditable", "false");
         });
 
-        target.addEventListener("keydown", (event: KeyboardEvent) => {
+        target.addEventListener("keydown", (event) => {
           if (event.keyCode === 13 && !event.shiftKey) {
             event.preventDefault();
             event.stopPropagation();
             const meta = this.table.getMeta(target);
 
-            if (target.getAttribute("contenteditable") === "true"){
-              this.send({event: "write",
-                value: [meta.x, meta.y, target.textContent],
-              });
+            if (target.getAttribute("contenteditable") === "true") {
+              this.send({event: "write", value: [meta.x, meta.y, target.textContent]});
             }
             target.setAttribute("contenteditable", "false");
           }
@@ -237,7 +233,6 @@ class RegularTableView extends DOMWidgetView {
       }
 
       this.editable_target = undefined;
-
     } else {
       this.editable_resolve(false);
       this.editable_resolve = undefined;
@@ -245,13 +240,13 @@ class RegularTableView extends DOMWidgetView {
     }
   }
 
-  public _handle_height(): void {
+  _handle_height() {
     this.el.style.height = `${this.model.get("height")}px`;
     this.table.style.height = `${this.model.get("height")}px`;
     this._handle_draw();
   }
 
-  public _handle_msg(msg: any): void {
+  _handle_msg(msg) {
     if (msg.type === "draw") {
       this._handle_draw();
     } else if (msg.type === "data") {
@@ -261,33 +256,36 @@ class RegularTableView extends DOMWidgetView {
     }
   }
 
-  public _handle_draw(): void {
+  _handle_draw() {
     // TODO
     this.table.draw();
   }
 
-  public _render(): void {
+  _render() {
     // render a regular-table
     this.table = document.createElement("regular-table");
     this.el.appendChild(this.table);
 
     // hook data model into python
-    this.table.setDataListener((x0: number, y0: number, x1: number, y1: number) => new Promise((resolve, reject) => {
-      if (this.resolve !== undefined) {
-        // existing outstanding promise
-        this.reject();
-        this.resolve = undefined;
-        this.reject = undefined;
-      }
+    this.table.setDataListener(
+      (x0, y0, x1, y1) =>
+        new Promise((resolve, reject) => {
+          if (this.resolve !== undefined) {
+            // existing outstanding promise
+            this.reject();
+            this.resolve = undefined;
+            this.reject = undefined;
+          }
 
-      // send event to python
-      this.resolve = resolve;
-      this.reject = reject;
-      this.send({event: "dataslice", value: [x0, y0, x1, y1]});
-    }));
+          // send event to python
+          this.resolve = resolve;
+          this.reject = reject;
+          this.send({event: "dataslice", value: [x0, y0, x1, y1]});
+        })
+    );
 
     // hook in click events
-    this.table.addEventListener("click", (event: MouseEvent) => {
+    this.table.addEventListener("click", (event) => {
       const meta = this.table.getMeta(event.target);
       this.selected.x = meta.x;
       this.selected.y = meta.y;
@@ -296,12 +294,11 @@ class RegularTableView extends DOMWidgetView {
     });
 
     // hook edit events into python
-    this.table.addEventListener("dblclick", (event: MouseEvent) => {
+    this.table.addEventListener("dblclick", (event) => {
       const meta = this.table.getMeta(event.target);
       event.preventDefault();
       event.stopPropagation();
       return new Promise((resolve) => {
-
         if (this.editable_resolve !== undefined) {
           // existing outstanding promise
           this.editable_resolve(false);
@@ -317,68 +314,68 @@ class RegularTableView extends DOMWidgetView {
       });
     });
 
-    this.table.addEventListener("keydown", (event: KeyboardEvent) => {
+    this.table.addEventListener("keydown", (event) => {
       switch (event.keyCode) {
-      // tab
-      case 9:
-        event.preventDefault();
-        if (event.shiftKey) {
-          this.moveSelection(-1, 0);
-        } else {
-          this.moveSelection(1, 0);
-        }
-        break;
+        // tab
+        case 9:
+          event.preventDefault();
+          if (event.shiftKey) {
+            this.moveSelection(-1, 0);
+          } else {
+            this.moveSelection(1, 0);
+          }
+          break;
         // left arrow
-      case 37:
-        event.preventDefault();
-        this.moveSelection(-1, 0);
-        break;
+        case 37:
+          event.preventDefault();
+          this.moveSelection(-1, 0);
+          break;
         // up arrow
-      case 38:
-        event.preventDefault();
-        this.moveSelection(0, -1);
-        break;
+        case 38:
+          event.preventDefault();
+          this.moveSelection(0, -1);
+          break;
         // right arrow
-      case 39:
-        event.preventDefault();
-        this.moveSelection(1, 0);
-        break;
+        case 39:
+          event.preventDefault();
+          this.moveSelection(1, 0);
+          break;
         // down arrow
-      case 40:
-        event.preventDefault();
-        this.moveSelection(0, 1);
-        break;
+        case 40:
+          event.preventDefault();
+          this.moveSelection(0, 1);
+          break;
       }
     });
 
-    this.table.addEventListener("keyup", (event: KeyboardEvent) => {
+    this.table.addEventListener("keyup", (event) => {
       this.updateFocus();
       event.preventDefault();
     });
   }
 
-  public moveSelection(dx: number, dy: number) {
+  moveSelection(dx, dy) {
     const target = this.findActive();
-    if (!target){
+    if (!target) {
       return;
     }
 
     const meta = this.table.getMeta(target);
 
-    if (target.getAttribute("contenteditable") === "true"){
+    if (target.getAttribute("contenteditable") === "true") {
       target.setAttribute("contenteditable", "false");
     }
 
     const SCROLL_AHEAD = 4;
 
     if (dx !== 0) {
-      if (meta.x + dx < this.columns && 0 <= meta.x + dx) {
+      if (meta.x + dx < this.columns && meta.x + dx >= 0) {
         this.selected.x = meta.x + dx;
       }
       if (meta.x1 <= this.selected.x + SCROLL_AHEAD) {
         this.table.scrollToCell(meta.x0 + 2, meta.y0, this.columns, this.rows);
       } else if (this.selected.x - SCROLL_AHEAD < meta.x0) {
-        if (0 < meta.x0 - 1) {
+        if (meta.x0 - 1 > 0) {
           this.table.scrollToCell(meta.x0 - 1, meta.y0, this.columns, this.rows);
         } else {
           this.table.scrollToCell(0, meta.y0, this.columns, this.rows);
@@ -387,13 +384,13 @@ class RegularTableView extends DOMWidgetView {
     }
 
     if (dy !== 0) {
-      if (meta.y + dy < this.rows && 0 <= meta.y + dy) {
+      if (meta.y + dy < this.rows && meta.y + dy >= 0) {
         this.selected.y = meta.y + dy;
       }
       if (meta.y1 <= this.selected.y + SCROLL_AHEAD) {
         this.table.scrollToCell(meta.x0, meta.y0 + 1, this.columns, this.rows);
       } else if (this.selected.y - SCROLL_AHEAD + 2 < meta.y0) {
-        if (0 < meta.y0 - 1) {
+        if (meta.y0 - 1 > 0) {
           this.table.scrollToCell(meta.x0, meta.y0 - 1, this.columns, this.rows);
         } else {
           this.table.scrollToCell(meta.x0, 0, this.columns, this.rows);
@@ -402,19 +399,21 @@ class RegularTableView extends DOMWidgetView {
     }
   }
 
-  public findActive() {
+  findActive() {
     const tds = this.table.querySelectorAll("td");
-    for (const td of tds) {
+    let ret;
+    tds.forEach((td) => {
       const meta = this.table.getMeta(td);
       if (meta.x === this.selected.x && meta.y === this.selected.y) {
-        return td;
+        ret = td;
       }
-    }
+    });
+    return ret;
   }
 
-  public updateFocus() {
+  updateFocus() {
     const tds = this.table.querySelectorAll("td");
-    for (const td of tds) {
+    tds.forEach((td) => {
       const meta = this.table.getMeta(td);
       if (meta.x === this.selected.x && meta.y === this.selected.y) {
         td.focus();
@@ -422,7 +421,6 @@ class RegularTableView extends DOMWidgetView {
       } else {
         td.classList.remove("highlight");
       }
-    }
+    });
   }
-
 }

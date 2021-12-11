@@ -6,12 +6,10 @@
  * the Apache License 2.0.  The full license can be found in the LICENSE file.
  *
  */
-import "isomorphic-fetch";
+import * as extension from "../src/index";
 
-import examplePlugin from "../src/plugin";
-
-describe("Checks activate", () => {
-  test("Check activate", () => {
-    expect(examplePlugin);
+describe("Checks exports", () => {
+  test("Check extension", () => {
+    expect(extension);
   });
 });
