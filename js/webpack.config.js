@@ -52,7 +52,7 @@ module.exports = [
     // custom widget.
     // It must be an amd module
     //
-    entry: "../lib/index.js",
+    entry: "./lib/index.js",
     devtool: "source-map",
     resolve,
     output: {
