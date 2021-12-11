@@ -7,7 +7,7 @@
  *
  */
 // Import the CSS
-import "../css/widget.css";
+import "../css/index.css";
 
 export {RegularTableModel} from "./model";
 export {RegularTableView} from "./view";
