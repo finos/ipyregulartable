@@ -15,7 +15,7 @@ import "regular-table";
 import "regular-table/dist/css/material.css";
 
 // Import the CSS
-import "../css/widget.css";
+import "../style/index.css";
 
 export class RegularTableView extends DOMWidgetView {
   table;

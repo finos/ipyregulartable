@@ -7,7 +7,7 @@
  *
  */
 // Import the CSS
-import "../css/index.css";
+import "../style/index.css";
 
 export {RegularTableModel} from "./model";
 export {RegularTableView} from "./view";
