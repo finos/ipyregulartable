@@ -33,7 +33,6 @@ module.exports = [
    */
   {
     entry: "./src/extension.js",
-    mode: "production",
     output: {
       filename: "index.js",
       path: path.resolve(__dirname, "..", "ipyregulartable", "nbextension", "static"),
@@ -54,7 +53,6 @@ module.exports = [
     // It must be an amd module
     //
     entry: "./lib/index.js",
-    mode: "production",
     devtool: "source-map",
     resolve,
     output: {
@@ -79,7 +77,6 @@ module.exports = [
    */
   {
     entry: "./src/index.js",
-    mode: "production",
     output: {
       filename: "index.js",
       path: path.resolve(__dirname, "dist"),
@@ -102,7 +99,6 @@ module.exports = [
    */
   {
     entry: "./src/index.js",
-    mode: "production",
     output: {
       filename: "embed-bundle.js",
       path: path.resolve(__dirname, "..", "docs", "source", "_static"),
