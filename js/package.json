@@ -62,7 +62,6 @@
   "dependencies": {
     "@jupyter-widgets/base": "^3.0.0 || ^4.0.0",
     "mathjs": "^10.0.0",
-    "minimist": "^1.2.5",
     "regular-table": "^0.4.2"
   },
   "devDependencies": {
@@ -102,7 +101,6 @@
     "webpack-cli": "^4.8.0"
   },
   "resolutions": {
-    "kind-of": "^6.0.3",
-    "minimist": "^0.2.1"
+    "kind-of": "^6.0.3"
   }
 }
