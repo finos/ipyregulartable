@@ -195,7 +195,9 @@ export class RegularTableView extends DOMWidgetView {
       this.resolve = undefined;
       this.reject = undefined;
     } else {
-      this.reject();
+      if (this.reject !== undefined) {
+        this.reject();
+      }
       this.resolve = undefined;
       this.reject = undefined;
     }
@@ -272,7 +274,9 @@ export class RegularTableView extends DOMWidgetView {
         new Promise((resolve, reject) => {
           if (this.resolve !== undefined) {
             // existing outstanding promise
-            this.reject();
+            if (this.reject !== undefined) {
+              this.reject();
+            }
             this.resolve = undefined;
             this.reject = undefined;
           }
@@ -287,10 +291,12 @@ export class RegularTableView extends DOMWidgetView {
     // hook in click events
     this.table.addEventListener("click", (event) => {
       const meta = this.table.getMeta(event.target);
-      this.selected.x = meta.x;
-      this.selected.y = meta.y;
-      this.updateFocus();
-      this.send({event: "click", value: [meta.x, meta.y]});
+      if (meta !== undefined) {
+        this.selected.x = meta.x;
+        this.selected.y = meta.y;
+        this.updateFocus();
+        this.send({event: "click", value: [meta.x, meta.y]});
+      }
     });
 
     // hook edit events into python
