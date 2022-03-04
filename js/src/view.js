@@ -243,8 +243,8 @@ export class RegularTableView extends DOMWidgetView {
   }
 
   _handle_height() {
-    this.el.style.height = `${this.model.get("height")}px`;
-    this.table.style.height = `${this.model.get("height")}px`;
+    this.el.style.height = this.model.get("height");
+    this.table.style.height = this.model.get("height");
     this._handle_draw();
   }
 
