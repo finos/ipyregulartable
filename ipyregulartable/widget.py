@@ -15,7 +15,6 @@ from traitlets import (
     Unicode,
     Dict,
     Bool,
-    Integer,
     validate,
     TraitError,
 )
