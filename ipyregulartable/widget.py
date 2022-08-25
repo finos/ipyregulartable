@@ -59,6 +59,7 @@ class RegularTableWidget(DOMWidget):
 
     datamodel = Instance(DataModel)
 
+    virtual_mode = Unicode("both").tag(sync=True)
     height = CSSHeight(default_value="250px").tag(sync=True)
 
     css = Dict(default_value={}).tag(sync=True)
