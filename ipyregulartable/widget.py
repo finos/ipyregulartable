@@ -5,6 +5,7 @@
 # This file is part of the ipyregulartable library, distributed under the terms of
 # the Apache License 2.0.  The full license can be found in the LICENSE file.
 #
+import numbers
 import numpy as np
 import pandas as pd
 from ipywidgets import DOMWidget, CallbackDispatcher
@@ -14,7 +15,6 @@ from traitlets import (
     Unicode,
     Dict,
     Bool,
-    Integer,
     validate,
     TraitError,
 )
@@ -42,6 +42,13 @@ _STYLER_KEYS = (
 )
 
 
+class CSSHeight(Unicode):
+    def validate(self, obj, value):
+        if isinstance(value, numbers.Number):
+            value = f"{value}px"
+        return super().validate(obj, value)
+
+
 class RegularTableWidget(DOMWidget):
     _model_name = Unicode("RegularTableModel").tag(sync=True)
     _model_module = Unicode("ipyregulartable").tag(sync=True)
@@ -52,8 +59,8 @@ class RegularTableWidget(DOMWidget):
 
     datamodel = Instance(DataModel)
 
-    height = Integer(default_value=250).tag(sync=True)
     virtual_mode = Unicode("both").tag(sync=True)
+    height = CSSHeight(default_value="250px").tag(sync=True)
 
     css = Dict(default_value={}).tag(sync=True)
     styler = Dict(default_value={}).tag(sync=True)

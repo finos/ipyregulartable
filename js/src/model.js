@@ -37,8 +37,8 @@ export class RegularTableModel extends DOMWidgetModel {
       _view_module: RegularTableModel.viewModule,
       _view_module_version: RegularTableModel.viewModuleVersion,
 
-      height: 250,
       virtual_mode: "both",
+      height: "250px",
       css: {
         table: "", // overall table styles
         thead: "", // header
