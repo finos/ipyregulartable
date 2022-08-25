@@ -286,7 +286,7 @@ export class RegularTableView extends DOMWidgetView {
           this.reject = reject;
           this.send({event: "dataslice", value: [x0, y0, x1, y1]});
         }),
-        {virtual_mode: this.model.get("virtual_mode")}
+      {virtual_mode: this.model.get("virtual_mode")}
     );
 
     // hook in click events
