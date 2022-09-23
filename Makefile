@@ -1,66 +1,68 @@
-tests: testpy testjs ## Run all tests
-
-testjs: ## Run js tests
-	cd js; yarn test
-
-testpy: ## Run python tests
+testpy: ## Clean and Make unit tests
 	python -m pytest -v ipyregulartable/tests --cov=ipyregulartable --junitxml=python_junit.xml --cov-report=xml --cov-branch
 
-lint: lintpy lintjs  ## run linters
+testjs: ## Clean and Make js tests
+	cd js; yarn test
 
-lintpy: ## run python linter
+test: tests
+tests: testpy testjs ## run the tests
+
+lintpy:  ## Black/flake8 python
+	python -m black --check ipyregulartable setup.py
 	python -m flake8 ipyregulartable setup.py
 
-lintjs: ## run js linter
+lintjs:  ## ESlint javascript
 	cd js; yarn lint
 
-fix: fixpy fixjs  ## Run autopep8/tslint fix
+lint: lintpy lintjs  ## run linter
 
-fixpy:  ## run autopep8 fix
+fixpy:  ## Black python
 	python -m black ipyregulartable/ setup.py
 
-fixjs:  ## run tslint fix
+fixjs:  ## ESlint Autofix JS
 	cd js; yarn fix
 
-annotate: ## MyPy type annotation check
-	python -m mypy -s ipyregulartable
+fix: fixpy fixjs  ## run black/tslint fix
 
-annotate_l: ## MyPy type annotation check - count only
-	python -m mypy -s ipyregulartable | wc -l
+check: checks
+checks:  ## run lint and other checks
+	check-manifest -v
 
-clean: ## clean the repository
-	find . -name "__pycache__" | xargs  rm -rf
-	find . -name "*.pyc" | xargs rm -rf
-	find . -name ".ipynb_checkpoints" | xargs  rm -rf
-	rm -rf .coverage coverage cover htmlcov logs build dist *.egg-info lib node_modules
-	make -C ./docs clean
-	git clean -fd
+build:  ## build python/javascript
+	python -m build .
+
+develop:  ## install to site-packages in editable mode
+	python -m pip install --upgrade build pip setuptools twine wheel
+	cd js; yarn
+	python -m pip install -e .[develop]
+
+install:  ## install to site-packages
+	python -m pip install .
+
+dist: clean build  ## create dists
+	python -m twine check dist/*
+
+publishpy:  ## dist to pypi
+	python -m twine upload dist/* --skip-existing
+
+publishjs:  ## dist to npm
+	cd js; npm publish || echo "can't publish - might already exist"
+
+publish: dist publishpy publishjs  ## dist to pypi and npm
 
 docs:  ## make documentation
 	make -C ./docs html
 	open ./docs/_build/html/index.html
 
-install:  ## install to site-packages
-	python -m pip install .
-
-serverextension: install ## enable serverextension
-	python -m jupyter serverextension enable --py ipyregulartable
-
-js:  ## build javascript
-	cd js; yarn
-	cd js; yarn build
-
-labextension: js ## enable labextension
-	cd js; python -m jupyter labextension install .
-
-dist: js  ## create dists
-	rm -rf dist build
-	python setup.py sdist bdist_wheel
-	python -m twine check dist/*
-
-publish: dist  ## dist to pypi and npm
-	python -m twine upload dist/* --skip-existing
-	cd js; npm publish || echo "can't publish - might already exist"
+clean: ## clean the repository
+	find . -name "__pycache__" | xargs  rm -rf
+	find . -name "*.pyc" | xargs rm -rf
+	find . -name ".ipynb_checkpoints" | xargs  rm -rf
+	rm -rf .coverage coverage *.xml build dist *.egg-info lib node_modules .pytest_cache *.egg-info
+	rm -rf ipyregulartable/labextension ipyregulartable/nbextension/static/index*
+	cd js && yarn clean
+	# make -C ./docs clean
+	git clean -fd
 
 # Thanks to Francoise at marmelab.com for this
 .DEFAULT_GOAL := help
@@ -70,4 +72,4 @@ help:
 print-%:
 	@echo '$*=$($*)'
 
-.PHONY: clean install serverextension labextension test tests help docs dist js fix lint fixpy fixjs lintpy lintjs
+.PHONY: testjs testpy tests test lintpy lintjs lint fixpy fixjs fix checks check build develop install labextension dist publishpy publishjs publish docs clean
