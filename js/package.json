@@ -38,7 +38,7 @@
     "clean:nbextension": "rimraf ../ipyregulartable/nbextension/static/index.js",
     "fix": "yarn lint --fix",
     "lint": "eslint -c .eslintrc.js --ext .js src/ tests/",
-    "prepack": "npm run build:lib",
+    "prepack": "npm run build",
     "test": "jest --coverage --collectCoverageFrom=src/*.{js}",
     "watch": "npm-run-all -p watch:*",
     "watch:lib": "yarn build:lib --watch",
