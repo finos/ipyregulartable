@@ -71,7 +71,7 @@ builder = npm_builder(
 
 setup(
     name=name,
-    version="0.2.0",
+    version="0.2.1",
     description="ipywidgets wrapper around regular-table",
     long_description=long_description,
     long_description_content_type="text/markdown",
