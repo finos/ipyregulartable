@@ -12,6 +12,7 @@ on:
       - LICENSE
       - README.md
   pull_request:
+  workflow_dispatch:
 
 permissions:
   checks: write
