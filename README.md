@@ -13,7 +13,7 @@
 
 # 
 
-An [ipywidgets](https://github.com/jupyter-widgets/ipywidgets) wrapper of [regular-table](https://github.com/jpmorganchase/regular-table) for Jupyter.
+An [ipywidgets](https://github.com/jupyter-widgets/ipywidgets) wrapper of [regular-table](https://github.com/finos/regular-table) for Jupyter.
 
 
 ## Examples
@@ -38,7 +38,7 @@ An [ipywidgets](https://github.com/jupyter-widgets/ipywidgets) wrapper of [regul
 ![](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/img/style.gif)
 
 ### Pandas Data Model
-For interactive/streaming sorting/pivoting/aggregation, take a look at [Perspective](https://github.com/finos/perspective), *Streaming pivot visualization via WebAssembly*, which also leverages [`regular-table`](https://github.com/jpmorganchase/regular-table).
+For interactive/streaming sorting/pivoting/aggregation, take a look at [Perspective](https://github.com/finos/perspective), *Streaming pivot visualization via WebAssembly*, which also leverages [`regular-table`](https://github.com/finos/regular-table).
 
 [Notebook](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/examples/pandas.ipynb)
 
