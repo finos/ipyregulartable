@@ -3,12 +3,12 @@
 </p>
 
 <p align="center">
-<a href="https://github.com/jpmorganchase/ipyregulartable/actions?query=workflow%3A%22Build+Status%22"><img alt="Build Status" src="https://github.com/jpmorganchase/ipyregulartable/workflows/Build%20Status/badge.svg?branch=main"></a>
-<a href="https://codecov.io/gh/jpmorganchase/ipyregulartable"><img alt="Coverage" src="https://codecov.io/gh/jpmorganchase/ipyregulartable/branch/main/graph/badge.svg"></a>
+<a href="https://github.com/finos/ipyregulartable/actions?query=workflow%3A%22Build+Status%22"><img alt="Build Status" src="https://github.com/finos/ipyregulartable/workflows/Build%20Status/badge.svg?branch=main"></a>
+<a href="https://codecov.io/gh/finos/ipyregulartable"><img alt="Coverage" src="https://codecov.io/gh/finos/ipyregulartable/branch/main/graph/badge.svg"></a>
 <a href="https://pypi.python.org/pypi/ipyregulartable"><img alt="PyPI Version" src="https://img.shields.io/pypi/v/ipyregulartable.svg?color=brightgreen&style=flat-square"></a>
 <a href="https://www.npmjs.com/package/ipyregulartable"><img alt="NPM Version" src="https://img.shields.io/npm/v/ipyregulartable.svg?color=brightgreen&style=flat-square"></a>
-<a href="https://github.com/jpmorganchase/ipyregulartable"><img alt="License" src="https://img.shields.io/github/license/jpmorganchase/ipyregulartable?color=brightgreen&style=flat-square"></a>
-<a href="https://mybinder.org/v2/gh/jpmorganchase/ipyregulartable/main?urlpath=lab"><img alt="Binder" src="https://mybinder.org/badge_logo.svg"></a>
+<a href="https://github.com/finos/ipyregulartable"><img alt="License" src="https://img.shields.io/github/license/finos/ipyregulartable?color=brightgreen&style=flat-square"></a>
+<a href="https://mybinder.org/v2/gh/finos/ipyregulartable/main?urlpath=lab"><img alt="Binder" src="https://mybinder.org/badge_logo.svg"></a>
 </p>
 
 # 
@@ -18,44 +18,44 @@ An [ipywidgets](https://github.com/jupyter-widgets/ipywidgets) wrapper of [regul
 
 ## Examples
 ### Two Billion Rows
-[Notebook](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/examples/two_billion.ipynb)
+[Notebook](https://raw.githubusercontent.com/finos/ipyregulartable/main/docs/examples/two_billion.ipynb)
 
-![](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/img/twobillion.gif)
+![](https://raw.githubusercontent.com/finos/ipyregulartable/main/docs/img/twobillion.gif)
 
 ### Click Events
-[Notebook](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/examples/click_events.ipynb)
+[Notebook](https://raw.githubusercontent.com/finos/ipyregulartable/main/docs/examples/click_events.ipynb)
 
-![](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/img/click_events.gif)
+![](https://raw.githubusercontent.com/finos/ipyregulartable/main/docs/img/click_events.gif)
 
 ### Edit Events
-[Notebook](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/examples/edit_events.ipynb)
+[Notebook](https://raw.githubusercontent.com/finos/ipyregulartable/main/docs/examples/edit_events.ipynb)
 
-![](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/img/edit_events.gif)
+![](https://raw.githubusercontent.com/finos/ipyregulartable/main/docs/img/edit_events.gif)
 
 ### Styling
-[Notebook](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/examples/styling.ipynb)
+[Notebook](https://raw.githubusercontent.com/finos/ipyregulartable/main/docs/examples/styling.ipynb)
 
-![](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/img/style.gif)
+![](https://raw.githubusercontent.com/finos/ipyregulartable/main/docs/img/style.gif)
 
 ### Pandas Data Model
 For interactive/streaming sorting/pivoting/aggregation, take a look at [Perspective](https://github.com/finos/perspective), *Streaming pivot visualization via WebAssembly*, which also leverages [`regular-table`](https://github.com/finos/regular-table).
 
-[Notebook](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/examples/pandas.ipynb)
+[Notebook](https://raw.githubusercontent.com/finos/ipyregulartable/main/docs/examples/pandas.ipynb)
 
 #### Series
-![](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/img/pd_series.png)
+![](https://raw.githubusercontent.com/finos/ipyregulartable/main/docs/img/pd_series.png)
 
 #### DataFrame
-![](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/img/pd_df.png)
+![](https://raw.githubusercontent.com/finos/ipyregulartable/main/docs/img/pd_df.png)
 
 #### DataFrame - Row Pivots
-![](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/img/pd_rpivot.png)
+![](https://raw.githubusercontent.com/finos/ipyregulartable/main/docs/img/pd_rpivot.png)
 
 #### DataFrame - Column Pivots
-![](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/img/pd_cpivot.png)
+![](https://raw.githubusercontent.com/finos/ipyregulartable/main/docs/img/pd_cpivot.png)
 
 #### DataFrame - Pivot Table
-![](https://raw.githubusercontent.com/jpmorganchase/ipyregulartable/main/docs/img/pd_pt.png)
+![](https://raw.githubusercontent.com/finos/ipyregulartable/main/docs/img/pd_pt.png)
 
 ## Installation
 
