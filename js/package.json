@@ -13,9 +13,9 @@
     "dist/*.js",
     "css/*.css"
   ],
-  "homepage": "https://github.com/jpmorganchase/ipyregulartable",
+  "homepage": "https://github.com/finos/ipyregulartable",
   "bugs": {
-    "url": "https://github.com/jpmorganchase/ipyregulartable/issues"
+    "url": "https://github.com/finos/ipyregulartable/issues"
   },
   "license": "Apache-2.0",
   "author": {
@@ -25,7 +25,7 @@
   "main": "lib/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jpmorganchase/ipyregulartable"
+    "url": "https://github.com/finos/ipyregulartable"
   },
   "scripts": {
     "build:babel": "babel src/ --source-maps --out-dir lib/",
