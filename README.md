@@ -8,6 +8,7 @@
 <a href="https://pypi.python.org/pypi/ipyregulartable"><img alt="PyPI Version" src="https://img.shields.io/pypi/v/ipyregulartable.svg?color=brightgreen&style=flat-square"></a>
 <a href="https://www.npmjs.com/package/ipyregulartable"><img alt="NPM Version" src="https://img.shields.io/npm/v/ipyregulartable.svg?color=brightgreen&style=flat-square"></a>
 <a href="https://github.com/finos/ipyregulartable"><img alt="License" src="https://img.shields.io/github/license/finos/ipyregulartable?color=brightgreen&style=flat-square"></a>
+<a href="https://community.finos.org/docs/governance/software-projects/stages/incubating"><img alt="FINOS Incubating" src="https://cdn.jsdelivr.net/gh/finos/contrib-toolbox@master/images/badge-incubating.svg"></a>
 <a href="https://mybinder.org/v2/gh/finos/ipyregulartable/main?urlpath=lab"><img alt="Binder" src="https://mybinder.org/badge_logo.svg"></a>
 </p>
 
@@ -59,17 +60,27 @@ For interactive/streaming sorting/pivoting/aggregation, take a look at [Perspect
 
 ## Installation
 
-You can install using `pip`:
+### PyPI
+
+`ipyregulartable` is available on [PyPI](https://pypi.org/project/ipyregulartable/):
 
 ```bash
 pip install ipyregulartable
 ```
 
-Or if you use jupyterlab:
+### Conda
+
+`ipyregulartable` is also available on [conda-forge](https://github.com/conda-forge/ipyregulartable-feedstock):
 
 ```bash
-pip install ipyregulartable
-jupyter labextension install @jupyter-widgets/jupyterlab-manager
+conda install -c conda-forge ipyregulartable
+```
+
+### Jupyter Server/JupyterLab Extension
+
+```bash
+ jupyter labextension install ipyregulartable
+ jupyter serverextension enable --py ipyregulartable
 ```
 
 If you are using Jupyter Notebook 5.2 or earlier, you may also need to enable
