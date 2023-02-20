@@ -26,15 +26,15 @@ requires = [
 ]
 
 requires_dev = requires + [
-    "black>=20.8b1",
+    "black>=23.1",
     "bump2version>=1.0.0",
     "check-manifest",
     "flake8>=3.7.8",
     "flake8-black>=0.2.1",
     "jupyter_packaging",
-    "mock",
     "pytest>=4.3.0",
     "pytest-cov>=2.6.1",
+    "safety",
     "Sphinx>=1.8.4",
     "sphinx-markdown-builder>=0.5.2",
 ]
