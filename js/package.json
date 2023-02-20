@@ -104,6 +104,7 @@
     "webpack-cli": "^5.0.0"
   },
   "resolutions": {
+    "json5": "^2.2.3",
     "kind-of": "^6.0.3"
   }
 }
