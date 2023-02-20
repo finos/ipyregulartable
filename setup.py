@@ -21,6 +21,7 @@ with open(path.join(here, "README.md"), encoding="utf-8") as f:
 
 requires = [
     "ipywidgets>=7.5.1",
+    "jupyterlab>=3.5.0",
     "numpy",
     "pandas>=0.22",
 ]
