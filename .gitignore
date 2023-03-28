@@ -40,10 +40,14 @@ htmlcov/
 .coverage
 .coverage.*
 .cache
+python_junit.xml
+junit.xml
 nosetests.xml
 coverage.xml
 *,cover
 .hypothesis/
+.pytest_cache
+.ruff_cache
 
 # Translations
 *.mo
@@ -61,14 +65,15 @@ instance/
 
 # Sphinx documentation
 docs/_build/
-docs/source/_static/embed-bundle.js
-docs/source/_static/embed-bundle.js.map
+docs/source
 
 # PyBuilder
 target/
 
 # IPython Notebook
 .ipynb_checkpoints
+*.ipynb
+.autoversion
 
 # pyenv
 .python-version
@@ -143,21 +148,13 @@ $RECYCLE.BIN/
 
 # NPM
 # ----
-
 **/node_modules/
-ipyregulartable/nbextension/static/index.*
-ipyregulartable/labextension/*.tgz
 
 # Coverage data
 # -------------
 **/coverage/
 
-# Packed lab extensions
+# Notebook and lab extensions
+ipyregulartable/nbextension/static/index.*
+ipyregulartable/labextension/*.tgz
 ipyregulartable/labextension
-python_junit.xml
-
-*.ipynb
-.autoversion
-docs/examples/ipyregulartable
-.vscode
-.mypy_cache
