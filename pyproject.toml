@@ -57,7 +57,7 @@ test = [
 ]
 
 [project.urls]
-repository = "{{cookiecutter.url}}"
+repository = "https://github.com/finos/ipyregulartable"
 homepage = "https://github.com/finos/ipyregulartable"
 
 [tool.check-manifest]
