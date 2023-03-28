@@ -6,7 +6,7 @@
  * the Apache License 2.0.  The full license can be found in the LICENSE file.
  *
  */
-const esModules = ["@finos", "@jupyterlab", "@jupyter-widgets", "lib0", "y-protocols", "internmap", "delaunator", "robust-predicates", "lodash-es"].join("|");
+const esModules = ["@finos", "@jupyter", "@jupyterlab", "@jupyter-widgets", "lib0", "y-protocols", "internmap", "delaunator", "robust-predicates", "lodash-es"].join("|");
 
 module.exports = {
   moduleDirectories: ["node_modules", "src", "tests"],
