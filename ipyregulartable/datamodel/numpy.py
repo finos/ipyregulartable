@@ -50,18 +50,10 @@ class NumpyDataModel(DataModel):
         return len(self._data)
 
     def columns(self):
-        return (
-            len(self._data[0])
-            if (self._data is not None and len(self._data) > 0)
-            else 0
-        )
+        return len(self._data[0]) if (self._data is not None and len(self._data) > 0) else 0
 
     def dataslice(self, x0, y0, x1, y1):
-        return (
-            self._data[y0 : y1 + 1, x0 : x1 + 1].T.tolist()
-            if (x0, y0, x1, y1) != (0, 0, 0, 0)
-            else []
-        )
+        return self._data[y0 : y1 + 1, x0 : x1 + 1].T.tolist() if (x0, y0, x1, y1) != (0, 0, 0, 0) else []
 
     def write(self, x, y, value):
         self._data[y, x] = value
