@@ -27,18 +27,18 @@ tests: testpy testjs ## run the tests
 ###########
 # Linting #
 ###########
-lintpy:  ## Black/flake8 python
-	python -m ruff ipyregulartable setup.py
-	python -m black --check ipyregulartable setup.py
+lintpy:  ## lint python with ruff
+	python -m ruff check ipyregulartable
+	python -m ruff format --check ipyregulartable
 
 lintjs:  ## ESlint javascript
 	cd js; yarn lint
 
 lint: lintpy lintjs  ## run linter
 
-fixpy:  ## Black python
-	python -m ruff ipyregulartable setup.py --fix
-	python -m black ipyregulartable/ setup.py
+fixpy:  ## autoformat python with ruff
+	python -m ruff check --fix ipyregulartable
+	python -m ruff format ipyregulartable
 
 fixjs:  ## ESlint Autofix JS
 	cd js; yarn fix
