@@ -61,7 +61,7 @@
   },
   "dependencies": {
     "@jupyter-widgets/base": "^6.0.5",
-    "mathjs": "^11.8.2",
+    "mathjs": "^15.2.0",
     "regular-table": "^0.5.7"
   },
   "devDependencies": {
