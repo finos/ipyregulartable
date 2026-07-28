@@ -119,7 +119,7 @@ export class RegularTableView extends DOMWidgetView {
               errors += `Expression: ${expression}\n`;
               errors += `${error}\n`;
             }
-            i++;
+            i += 1;
           }
         });
       });

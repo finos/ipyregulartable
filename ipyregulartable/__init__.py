@@ -6,6 +6,6 @@
 # the Apache License 2.0.  The full license can be found in the LICENSE file.
 #
 from ._version import __version__
-from .nbextension import _jupyter_nbextension_paths
 from .datamodel import *
+from .nbextension import _jupyter_nbextension_paths
 from .widget import RegularTableWidget
