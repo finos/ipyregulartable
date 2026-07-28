@@ -6,13 +6,14 @@
 # the Apache License 2.0.  The full license can be found in the LICENSE file.
 #
 import pandas as pd
+
 from .base import DataModel
 
 
 class SeriesDataModel(DataModel):
     def __init__(self, data=None):
         if not isinstance(data, pd.Series):
-            raise Exception("Data must be pandas Series for SeriesDataModel, got: {}".format(type(data)))
+            raise TypeError(f"Data must be pandas Series for SeriesDataModel, got: {type(data)}")
         self._data = data
 
     def editable(self, x, y):
@@ -42,14 +43,14 @@ class SeriesDataModel(DataModel):
         if isinstance(data, pd.Series):
             self._data = data
         else:
-            raise Exception("Cannot set non-pandas series data for pandas series data model")
+            raise TypeError("Cannot set non-pandas series data for pandas series data model")
         self.draw()
 
 
 class DataFrameDataModel(DataModel):
     def __init__(self, data=None):
         if not isinstance(data, pd.DataFrame):
-            raise Exception("Data must be pandas DataFrame for DataFrameDataModel, got: {}".format(type(data)))
+            raise TypeError(f"Data must be pandas DataFrame for DataFrameDataModel, got: {type(data)}")
         self._data = data
 
     def editable(self, x, y):
@@ -83,4 +84,4 @@ class DataFrameDataModel(DataModel):
         if isinstance(data, pd.DataFrame):
             self._data = data
         else:
-            raise Exception("Cannot set non-pandas series data for pandas series data model")
+            raise TypeError("Cannot set non-pandas series data for pandas series data model")

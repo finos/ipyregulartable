@@ -6,27 +6,28 @@
 # the Apache License 2.0.  The full license can be found in the LICENSE file.
 #
 import numbers
+
 import numpy as np
 import pandas as pd
-from ipywidgets import DOMWidget, CallbackDispatcher
+from ipywidgets import CallbackDispatcher, DOMWidget
 from traitlets import (
-    observe,
-    Instance,
-    Unicode,
-    Dict,
     Bool,
-    validate,
+    Dict,
+    Instance,
     TraitError,
+    Unicode,
+    observe,
+    validate,
 )
+
+from ._version import __version__
 from .datamodel import (
+    DataFrameDataModel,
     DataModel,
-    TwoBillionRows,
     NumpyDataModel,
     SeriesDataModel,
-    DataFrameDataModel,
+    TwoBillionRows,
 )
-from ._version import __version__
-
 
 _STYLER_KEYS = (
     "table",
@@ -70,7 +71,7 @@ class RegularTableWidget(DOMWidget):
 
     def __init__(self, datamodel=None, log_js_errors=True):
         # super
-        super(RegularTableWidget, self).__init__()
+        super().__init__()
 
         # install data model
         if datamodel is None:
@@ -85,7 +86,7 @@ class RegularTableWidget(DOMWidget):
         elif isinstance(datamodel, pd.DataFrame):
             self.datamodel = DataFrameDataModel(datamodel)
         else:
-            raise Exception("Unsupported data model: {}".format(datamodel))
+            raise TypeError(f"Unsupported data model: {datamodel}")
 
         # set self for draw callbacks
         self.datamodel._setWidget(self)
@@ -120,7 +121,7 @@ class RegularTableWidget(DOMWidget):
 
     def _jserrors(self, error):
         if error and self._log_js_errors:
-            raise Exception(error)
+            raise RuntimeError(error)
 
     def _handle_custom_msg(self, content, buffers=None):
         if content.get("event", "") == "click":
@@ -172,9 +173,9 @@ class RegularTableWidget(DOMWidget):
         if not isinstance(proposal, dict):
             raise TraitError("css needs to be dict")
 
-        for key in proposal.keys():
+        for key in proposal:
             if key not in _STYLER_KEYS:
-                raise TraitError("Unrecognized key: {}".format(key))
+                raise TraitError(f"Unrecognized key: {key}")
 
         return proposal
 
@@ -185,12 +186,12 @@ class RegularTableWidget(DOMWidget):
         if not isinstance(proposal, dict):
             raise TraitError("styler needs to be dict")
 
-        for key in proposal.keys():
+        for key in proposal:
             if key not in _STYLER_KEYS:
-                raise TraitError("Unrecognized key: {}".format(key))
+                raise TraitError(f"Unrecognized key: {key}")
             if not isinstance(proposal[key], dict):
                 raise TraitError("styler values need to be dict")
             if not list(proposal[key].keys()) == ["expression", "style"]:
-                raise TraitError("Invalid trait: {}".format(proposal[key]))
+                raise TraitError(f"Invalid trait: {proposal[key]}")
 
         return proposal

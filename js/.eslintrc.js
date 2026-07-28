@@ -1,13 +1,4 @@
-/******************************************************************************
- *
- * Copyright (c) 2020, the ipyregulartable authors.
- *
- * This file is part of the ipyregulartable library, distributed under the terms of
- * the Apache License 2.0.  The full license can be found in the LICENSE file.
- *
- */
-
- module.exports = {
+module.exports = {
   parser: "@babel/eslint-parser",
   extends: ["airbnb-base", "prettier", "plugin:json/recommended"],
   plugins: ["prettier", "jest"],
@@ -51,7 +42,6 @@
     "no-const-assign": "error",
     "no-nested-ternary": "warn",
     "no-this-before-super": "error",
-    "no-plusplus": "off",
     "no-undef": "error",
     "no-underscore-dangle": "off",
     "no-unreachable": "error",
@@ -61,6 +51,7 @@
     "spaced-comment": "off",
     "valid-typeof": "error",
 
+    "import/extensions": "off",
     "import/no-unresolved": "off",
     "import/prefer-default-export": "off",
     "import/no-extraneous-dependencies": "off",

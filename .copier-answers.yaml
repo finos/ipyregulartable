@@ -1,0 +1,12 @@
+# Changes here will be overwritten by Copier
+_commit: b2a4844
+_src_path: https://github.com/python-project-templates/base.git
+add_docs: false
+add_extension: jupyter
+add_wiki: false
+email: t.paine154@gmail.com
+github: finos
+project_description: An ipywidgets wrapper around regular-table
+project_name: ipyregulartable
+python_version_primary: '3.11'
+team: The ipyregulartable authors

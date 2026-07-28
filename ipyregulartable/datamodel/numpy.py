@@ -5,9 +5,10 @@
 # This file is part of the ipyregulartable library, distributed under the terms of
 # the Apache License 2.0.  The full license can be found in the LICENSE file.
 #
-import numpy as np
 import string
-from random import choice, sample, randint, random
+from random import choice, randint, random, sample
+
+import numpy as np
 
 from .base import DataModel
 
@@ -64,4 +65,4 @@ class NumpyDataModel(DataModel):
         elif data is not None:
             self._data = np.array(data)
         else:
-            raise Exception("Cannot set non-numpy data for numpy data model")
+            raise TypeError("Cannot set non-numpy data for numpy data model")
