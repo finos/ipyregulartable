@@ -11,6 +11,7 @@ const esModules = [
   "lib0",
   "lodash-es",
   "nanoid",
+  "regular-table",
   "robust-predicates",
   "y-protocols",
 ].join("|");
