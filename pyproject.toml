@@ -39,7 +39,7 @@ dependencies = [
     "ipywidgets>=7.5.1",
     "jupyterlab>=4,<5",
     "numpy",
-    "pandas>=0.22",
+    "pandas>=3.0.5",
 ]
 
 [project.optional-dependencies]
