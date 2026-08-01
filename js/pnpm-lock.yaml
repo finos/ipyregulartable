@@ -97,8 +97,8 @@ importers:
         specifier: ^5.0.0
         version: 5.0.0(webpack@5.104.1)
       style-loader:
-        specifier: ^3.3.3
-        version: 3.3.4(webpack@5.104.1)
+        specifier: ^4.0.0
+        version: 4.0.0(webpack@5.104.1)
       webpack:
         specifier: 5.104.1
         version: 5.104.1(postcss@8.5.23)(webpack-cli@7.2.1)
@@ -3589,6 +3589,12 @@ packages:
   style-loader@3.3.4:
     resolution: {integrity: sha512-0WqXzrsMTyb8yjZJHDqwmnwRJvhALK9LfRtRc6B4UTWe8AijYLZYZ9thuJTZc2VfQWINADW/j+LiJnfy2RoC1w==}
     engines: {node: '>= 12.13.0'}
+    peerDependencies:
+      webpack: 5.104.1
+
+  style-loader@4.0.0:
+    resolution: {integrity: sha512-1V4WqhhZZgjVAVJyt7TdDPZoPBPNHbekX4fWnCJL1yQukhCeZhJySUL+gL9y6sNdN95uEOS83Y55SqHcP7MzLA==}
+    engines: {node: '>= 18.12.0'}
     peerDependencies:
       webpack: 5.104.1
 
@@ -8338,6 +8344,10 @@ snapshots:
   style-inject@0.3.0: {}
 
   style-loader@3.3.4(webpack@5.104.1):
+    dependencies:
+      webpack: 5.104.1(postcss@8.5.23)(webpack-cli@7.2.1)
+
+  style-loader@4.0.0(webpack@5.104.1):
     dependencies:
       webpack: 5.104.1(postcss@8.5.23)(webpack-cli@7.2.1)
 
