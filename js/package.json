@@ -44,7 +44,7 @@
     "test": "jest --coverage --collectCoverageFrom=src/*.{js}"
   },
   "dependencies": {
-    "@jupyter-widgets/base": "^6.0.5",
+    "@jupyter-widgets/base": "^6.0.12",
     "mathjs": "^15.2.0",
     "regular-table": "^0.9.0"
   },
