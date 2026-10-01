@@ -34,8 +34,8 @@ importers:
         specifier: ^7.29.3
         version: 7.29.7(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1)
       '@jupyterlab/builder':
-        specifier: ^4.5.10
-        version: 4.5.10(postcss@8.5.23)
+        specifier: ^4.5.11
+        version: 4.5.11(postcss@8.5.23)
       babel-jest:
         specifier: ^30.4.1
         version: 30.4.1(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1)
@@ -919,8 +919,8 @@ packages:
   '@jupyter/ydoc@4.1.1':
     resolution: {integrity: sha512-fO6WMy2j+Hu+/SjfLycCQZq2OIPBPJtdgrY02mgaHUAsGJ+THQ9JmVgm/Lbai4x1+npXT663FJwVm7z0zJd3Pw==}
 
-  '@jupyterlab/builder@4.5.10':
-    resolution: {integrity: sha512-tiHVD3OCPeZZ36mURD/ZTuUUHK0lWu9uhEDiuy9VHZWpw8Q/dkDLlRFUvTABsi2A0Iv/KFN70ExAgvU1/Tm3CQ==}
+  '@jupyterlab/builder@4.5.11':
+    resolution: {integrity: sha512-b8LdyPZ4O9EoaG4pjZ/9swn9aDpkxo7VHIxNJc+zXPP60UaOkQI+3N/9GpCWR1i2kWtrHUlZojYcInZVPbRRog==}
     hasBin: true
 
   '@jupyterlab/coreutils@6.6.3':
@@ -5207,7 +5207,7 @@ snapshots:
       y-protocols: 1.0.7(yjs@13.6.32)
       yjs: 13.6.32
 
-  '@jupyterlab/builder@4.5.10(postcss@8.5.23)':
+  '@jupyterlab/builder@4.5.11(postcss@8.5.23)':
     dependencies:
       '@lumino/algorithm': 2.0.5
       '@lumino/application': 2.4.10
