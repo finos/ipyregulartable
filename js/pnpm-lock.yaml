@@ -18,8 +18,8 @@ importers:
         specifier: ^15.2.0
         version: 15.2.0
       regular-table:
-        specifier: ^0.9.0
-        version: 0.9.0
+        specifier: ^0.9.1
+        version: 0.9.1
     devDependencies:
       '@babel/cli':
         specifier: ^7.28.6
@@ -3333,8 +3333,8 @@ packages:
     resolution: {integrity: sha512-NgRBy2Nx/bE+9F27nVHnqcN5HjyLmecqsqx2PJHu3/IEtADD4WuxuXIVExD5PoSDFVrl78dOonfcOe5O+5nbzQ==}
     hasBin: true
 
-  regular-table@0.9.0:
-    resolution: {integrity: sha512-SY3gZvEQqN0PdMsg77qJrWHxAWWx3kJsG4+PlskcL1zAPEczo42/95SdlDXe/S0KckqOJrChrpDjPE7RrRf5jQ==}
+  regular-table@0.9.1:
+    resolution: {integrity: sha512-3I/2I3NEhmyScCevW/r1AE9hyUkqrPRMDsgo/nDnGXhpXVZOxUddJQGBmEMLgyc7OSaQSzl9BtXllnMqw1MwCA==}
     engines: {node: '>=16'}
 
   require-directory@2.1.1:
@@ -8082,7 +8082,7 @@ snapshots:
     dependencies:
       jsesc: 3.1.0
 
-  regular-table@0.9.0: {}
+  regular-table@0.9.1: {}
 
   require-directory@2.1.1: {}
 
