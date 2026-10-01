@@ -55,7 +55,7 @@
     "@babel/preset-env": "^7.29.3",
     "@jupyterlab/builder": "^4.5.10",
     "babel-jest": "^30.4.1",
-    "css-loader": "^7.1.4",
+    "css-loader": "^7.1.5",
     "cpy-cli": "^7.0.0",
     "eslint": "^8.57.1",
     "eslint-config-airbnb": "^19.0.4",
