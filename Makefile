@@ -1,73 +1,44 @@
 #########
 # BUILD #
 #########
-.PHONY: develop-py develop-js develop
-develop-py:
+.PHONY: develop build install
+
+develop:  ## install dependencies and build library
 	uv pip install -e .[develop]
 
-develop-js: requirements-js
+requirements:  ## install prerequisite python build requirements
+	uv pip install -r pyproject.toml --extra develop
 
-develop: develop-js develop-py  ## setup project for development
+build:  ## build the python library
+	python -m build -n
 
-.PHONY: requirements-py requirements-js requirements
-requirements-py:  ## install prerequisite python build requirements
-	python -m pip install --upgrade pip toml
-	python -m pip install `python -c 'import toml; c = toml.load("pyproject.toml"); print("\n".join(c["build-system"]["requires"]))'`
-	python -m pip install `python -c 'import toml; c = toml.load("pyproject.toml"); print(" ".join(c["project"]["optional-dependencies"]["develop"]))'`
-
-requirements-js:  ## install prerequisite javascript build requirements
-	cd js; pnpm install && npx playwright install
-
-requirements: requirements-js requirements-py  ## setup project for development
-
-.PHONY: build-py build-js build
-build-py:
-	python -m build -w -n
-
-build-js:
-	cd js; pnpm build
-
-build: build-js build-py  ## build the project
-
-.PHONY: install
-install:  ## install python library
+install:  ## install library
 	uv pip install .
 
 #########
 # LINTS #
 #########
-.PHONY: lint-py lint-js lint-docs lint lints
-lint-py:  ## run python linter with ruff
+.PHONY: lint-py lint-docs fix-py fix-docs lint lints fix format
+
+lint-py:  ## lint python with ruff
 	python -m ruff check ipyregulartable
 	python -m ruff format --check ipyregulartable
-
-lint-js:  ## run js linter
-	cd js; pnpm lint
 
 lint-docs:  ## lint docs with mdformat and codespell
 	python -m mdformat --check README.md
 	python -m codespell_lib README.md
 
-lint: lint-js lint-py lint-docs  ## run project linters
-
-# alias
-lints: lint
-
-.PHONY: fix-py fix-js fix-docs fix format
-fix-py:  ## fix python formatting with ruff
+fix-py:  ## autoformat python code with ruff
 	python -m ruff check --fix ipyregulartable
 	python -m ruff format ipyregulartable
-
-fix-js:  ## fix js formatting
-	cd js; pnpm fix
 
 fix-docs:  ## autoformat docs with mdformat and codespell
 	python -m mdformat README.md
 	python -m codespell_lib --write README.md
 
-fix: fix-js fix-py fix-docs  ## run project autoformatters
-
-# alias
+lint: lint-py lint-docs  ## run all linters
+lints: lint
+fix: fix-py fix-docs  ## run all autoformatters
 format: fix
 
 ################
@@ -79,40 +50,25 @@ check-dist:  ## check python sdist and wheel with check-dist
 	check-dist -v
 
 check-types:  ## check python types with ty
-	ty check --python $$(which python)
+	python -m ty check
 
-checks: check-dist
+checks: check-dist check-types
 
-# alias
+# Alias
 check: checks
 
 #########
 # TESTS #
 #########
-.PHONY: test-py tests-py coverage-py
-test-py:  ## run python tests
+.PHONY: test coverage tests
+
+test:  ## run python tests
 	python -m pytest -v ipyregulartable/tests
 
-# alias
-tests-py: test-py
-
-coverage-py:  ## run python tests and collect test coverage
+coverage:  ## run tests and collect test coverage
 	python -m pytest -v ipyregulartable/tests --cov=ipyregulartable --cov-report term-missing --cov-report xml
 
-.PHONY: test-js tests-js coverage-js
-test-js:  ## run js tests
-	cd js; pnpm test
-
-# alias
-tests-js: test-js
-
-coverage-js: test-js  ## run js tests and collect test coverage
-
-.PHONY: test coverage tests
-test: test-py test-js  ## run all tests
-coverage: coverage-py coverage-js  ## run all tests and collect test coverage
-
-# alias
+# Alias
 tests: test
 
 ###########
@@ -135,18 +91,15 @@ major:  ## bump a major version
 ########
 # DIST #
 ########
-.PHONY: dist dist-py dist-js dist-check publish
+.PHONY: dist dist-build dist-check publish
 
-dist-py:  ## build python dists
+dist-build:  # build python dists
 	python -m build -w -s
 
-dist-js:  # build js dists
-	cd js; pnpm pack
-
-dist-check:  ## run python dist checker with twine
+dist-check:  ## check python dists
 	python -m twine check dist/*
 
-dist: clean build dist-js dist-py dist-check  ## build all dists
+dist: clean dist-build dist-check  ## build all dists
 
 publish: dist  ## publish python assets
 
@@ -165,7 +118,7 @@ clean: ## clean the repository
 
 .PHONY: help
 
-# Thanks to Francoise at marmelab.com for this
+# Thanks to Francois at marmelab for this
 .DEFAULT_GOAL := help
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'

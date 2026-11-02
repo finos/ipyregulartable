@@ -1,6 +1,0 @@
-allowBuilds:
-  "@fortawesome/fontawesome-free": true
-  unrs-resolver: true
-
-overrides:
-  webpack: "5.104.1"

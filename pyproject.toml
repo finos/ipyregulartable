@@ -1,8 +1,6 @@
 [build-system]
 requires = [
     "hatchling",
-    "hatch-js",
-    "jupyterlab>=4,<5",
 ]
 build-backend = "hatchling.build"
 
@@ -11,7 +9,7 @@ name = "ipyregulartable"
 authors = [
     {name = "The ipyregulartable authors", email = "t.paine154@gmail.com"},
 ]
-description = "An ipywidgets wrapper around regular-table"
+description = "An AnyWidget wrapper around regular-table powered by spaday"
 readme = "README.md"
 license = { text = "Apache-2.0" }
 version = "0.3.7"
@@ -23,8 +21,6 @@ classifiers = [
     "Framework :: Jupyter",
     "Framework :: Jupyter :: JupyterLab",
     "Framework :: Jupyter :: JupyterLab :: 4",
-    "Framework :: Jupyter :: JupyterLab :: Extensions",
-    "Framework :: Jupyter :: JupyterLab :: Extensions :: Prebuilt",
     "Programming Language :: Python",
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python :: Implementation :: PyPy",
@@ -36,10 +32,10 @@ classifiers = [
 ]
 
 dependencies = [
-    "ipywidgets>=8.1.9",
-    "jupyterlab>=4,<5",
     "numpy",
     "pandas>=3.0.6",
+    "spaday[widget]>=0.13,<1.0",
+    "spaday-regular-table>=0.3,<1.0",
 ]
 
 [project.optional-dependencies]
@@ -48,11 +44,11 @@ develop = [
     "bump-my-version",
     "check-dist",
     "codespell",
-    "hatch-js",
     "hatchling",
-    "mdformat",
-    "mdformat-tables>=1",
     "jupyterlab>=4,<5",
+    "mdformat",
+    "mdformat-frontmatter",
+    "mdformat-tables>=1",
     "pytest",
     "pytest-cov",
     "ruff",
@@ -85,11 +81,6 @@ search = 'version = "{current_version}"'
 replace = 'version = "{new_version}"'
 
 [[tool.bumpversion.files]]
-filename = "js/package.json"
-search = '"version": "{current_version}"'
-replace = '"version": "{new_version}"'
-
-[[tool.bumpversion.files]]
 filename = "binder/requirements.txt"
 search = 'ipyregulartable=={current_version}'
 replace = 'ipyregulartable=={new_version}'
@@ -107,13 +98,10 @@ exclude_also = [
     "@(abc\\.)?abstractmethod",
 ]
 ignore_errors = true
-fail_under = 20
+fail_under = 50
 
 [tool.hatch.build]
-artifacts = [
-    "ipyregulartable/nbextension",
-    "ipyregulartable/labextension",
-]
+artifacts = []
 
 [tool.hatch.build.sources]
 src = "/"
@@ -121,35 +109,14 @@ src = "/"
 [tool.hatch.build.targets.sdist]
 packages = [
     "ipyregulartable",
-    "js",
-]
-exclude = [
-    "js/dist",
-    "js/node_modules",
 ]
 
 [tool.hatch.build.targets.wheel]
 packages = [
     "ipyregulartable",
 ]
-exclude = [
-    "js"
-]
 
 [tool.hatch.build.targets.wheel.shared-data]
-"ipyregulartable/nbextension" = "share/jupyter/nbextensions/ipyregulartable"
-"ipyregulartable/labextension" = "share/jupyter/labextensions/ipyregulartable"
-"ipyregulartable/extension/install.json" = "share/jupyter/labextensions/ipyregulartable/install.json"
-"ipyregulartable/extension/ipyregulartable.json" = "etc/jupyter/nbconfig/notebook.d/ipyregulartable.json"
-
-[tool.hatch.build.hooks.hatch-js]
-path = "js"
-build_cmd = "build"
-tool = "pnpm"
-targets = [
-    "ipyregulartable/nbextension/static/index.js",
-    "ipyregulartable/labextension/package.json",
-]
 
 [tool.pytest.ini_options]
 addopts = [
@@ -159,7 +126,12 @@ addopts = [
 testpaths = "ipyregulartable/tests"
 
 [tool.ruff]
-line-length = 120
+line-length = 150
+
+[tool.ruff.lint]
+extend-select = [
+    "I",
+]
 
 [tool.ruff.lint.isort]
 combine-as-imports = true

@@ -2,11 +2,11 @@
 _commit: 84508d6
 _src_path: https://github.com/python-project-templates/base.git
 add_docs: false
-add_extension: jupyter
+add_extension: python
 add_wiki: false
 email: t.paine154@gmail.com
 github: finos
-project_description: An ipywidgets wrapper around regular-table
+project_description: An AnyWidget wrapper around regular-table powered by spaday
 project_name: ipyregulartable
 python_version_primary: '3.11'
 team: The ipyregulartable authors

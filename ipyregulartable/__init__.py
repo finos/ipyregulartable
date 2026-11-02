@@ -7,5 +7,4 @@
 #
 from ._version import __version__
 from .datamodel import *
-from .nbextension import _jupyter_nbextension_paths
 from .widget import RegularTableWidget
