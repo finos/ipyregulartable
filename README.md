@@ -4,96 +4,81 @@
 
 # ipyregulartable
 
-An [ipywidgets](https://github.com/jupyter-widgets/ipywidgets) wrapper around
-[regular-table](https://github.com/finos/regular-table) for Jupyter.
+An [AnyWidget](https://anywidget.dev/) wrapper around
+[`spaday-regular-table`](https://github.com/1kbgz/spaday-regular-table) for Jupyter.
 
 [![Build Status](https://github.com/finos/ipyregulartable/actions/workflows/build.yaml/badge.svg?branch=main&event=push)](https://github.com/finos/ipyregulartable/actions/workflows/build.yaml)
 [![codecov](https://codecov.io/gh/finos/ipyregulartable/branch/main/graph/badge.svg)](https://codecov.io/gh/finos/ipyregulartable)
 [![License](https://img.shields.io/github/license/finos/ipyregulartable)](https://github.com/finos/ipyregulartable)
 [![PyPI](https://img.shields.io/pypi/v/ipyregulartable.svg)](https://pypi.python.org/pypi/ipyregulartable)
-[![NPM](https://img.shields.io/npm/v/ipyregulartable.svg)](https://www.npmjs.com/package/ipyregulartable)
 [![FINOS Incubating](https://cdn.jsdelivr.net/gh/finos/contrib-toolbox@master/images/badge-incubating.svg)](https://community.finos.org/docs/governance/software-projects/stages/incubating)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/finos/ipyregulartable/main?urlpath=lab)
 
-## Examples
-
-### Two Billion Rows
-
-[Notebook](https://raw.githubusercontent.com/finos/ipyregulartable/main/docs/examples/two_billion.ipynb)
-
-![Two billion rows](https://raw.githubusercontent.com/finos/ipyregulartable/main/docs/img/twobillion.gif)
-
-### Click Events
-
-[Notebook](https://raw.githubusercontent.com/finos/ipyregulartable/main/docs/examples/click_events.ipynb)
-
-![Click events](https://raw.githubusercontent.com/finos/ipyregulartable/main/docs/img/click_events.gif)
-
-### Edit Events
-
-[Notebook](https://raw.githubusercontent.com/finos/ipyregulartable/main/docs/examples/edit_events.ipynb)
-
-![Edit events](https://raw.githubusercontent.com/finos/ipyregulartable/main/docs/img/edit_events.gif)
-
-### Styling
-
-[Notebook](https://raw.githubusercontent.com/finos/ipyregulartable/main/docs/examples/styling.ipynb)
-
-![Styling](https://raw.githubusercontent.com/finos/ipyregulartable/main/docs/img/style.gif)
-
-### Pandas Data Model
-
-For interactive or streaming sorting, pivoting, and aggregation, see
-[Perspective](https://github.com/finos/perspective), which also uses
-[`regular-table`](https://github.com/finos/regular-table).
-
-#### Series
-
-![Series](https://raw.githubusercontent.com/finos/ipyregulartable/main/docs/img/pd_series.png)
-
-#### DataFrame
-
-![DataFrame](https://raw.githubusercontent.com/finos/ipyregulartable/main/docs/img/pd_df.png)
-
-#### DataFrame Row Pivots
-
-![DataFrame row pivots](https://raw.githubusercontent.com/finos/ipyregulartable/main/docs/img/pd_rpivot.png)
-
-#### DataFrame Column Pivots
-
-![DataFrame column pivots](https://raw.githubusercontent.com/finos/ipyregulartable/main/docs/img/pd_cpivot.png)
-
-#### DataFrame Pivot Table
-
-![DataFrame pivot table](https://raw.githubusercontent.com/finos/ipyregulartable/main/docs/img/pd_pt.png)
-
 ## Installation
 
-### PyPI
+Install the Python package. AnyWidget supplies the Jupyter integration, so there is no labextension or
+nbextension to install.
 
 ```bash
 pip install ipyregulartable
 ```
 
-### Conda
+Conda packages are available from conda-forge:
 
 ```bash
 conda install -c conda-forge ipyregulartable
 ```
 
-For Jupyter Notebook 5.2 or earlier, enable the classic notebook extension:
+## Usage
 
-```bash
-jupyter nbextension enable --py --sys-prefix ipyregulartable
-```
-
-## Data Model
-
-Custom data models implement the abstract methods on the base `DataModel`
-class:
+Pass a NumPy array, pandas Series, pandas DataFrame, or `DataModel` to `RegularTableWidget`:
 
 ```python
-class DataModel(with_metaclass(ABCMeta)):
+import pandas as pd
+
+from ipyregulartable import RegularTableWidget
+
+table = RegularTableWidget(
+    pd.DataFrame(
+        {
+            "symbol": ["AAPL", "MSFT"],
+            "price": [201.5, 418.0],
+        }
+    )
+)
+table
+```
+
+The widget is a `spaday.Widget`. It renders the `spaday-regular-table` custom element and uses Spaday's
+component tree and action runtime for browser behavior.
+
+Register a click callback with the existing API:
+
+```python
+table.on_click(lambda widget, coordinates: print(coordinates))
+```
+
+Set table height and static CSS rules from Python:
+
+```python
+table.height = 400
+table.css = {
+    "theadth": "background: #f2f4f7; font-weight: 700",
+    "td": "padding-inline: 0.75rem",
+}
+```
+
+## Data models
+
+Custom data models implement the abstract methods on `DataModel`:
+
+```python
+from abc import abstractmethod
+
+from ipyregulartable import DataModel
+
+
+class MyDataModel(DataModel):
     @abstractmethod
     def editable(self, x, y):
         """Return whether the cell at (x, y) is editable."""
@@ -111,16 +96,31 @@ class DataModel(with_metaclass(ABCMeta)):
         """Return a data slice, inclusive of both coordinate pairs."""
 ```
 
-Any `DataModel` object can be passed to `RegularTableWidget`.
-`regular-table` may make probing calls with `(0, 0, 0, 0)` to assess data
-limits.
+`spaday-regular-table` keeps row records in the browser and virtualizes their DOM rendering. This
+implementation materializes at most 1,000,000 cells when the widget is created or redrawn. Larger
+models raise `ValueError` instead of sending an unbounded payload over the widget comm.
+
+## Compatibility
+
+The Spaday implementation supports:
+
+- NumPy arrays, pandas Series, pandas DataFrames, and bounded custom `DataModel` objects;
+- viewport-virtualized rendering through `spaday-regular-table`;
+- `on_click`, `draw`, `setData`, `dataslice`, and `editable`;
+- `height`, `virtual_mode`, and static `css` rules.
+
+The following legacy features need a Python data-provider protocol in `spaday-regular-table` and are
+not implemented:
+
+- Python-backed viewport slices such as `TwoBillionRows`;
+- in-cell editing and `on_edit` callbacks;
+- expression-based `styler` rules.
 
 ## License
 
-Licensed under the Apache License 2.0. See [LICENSE](LICENSE),
-[NOTICE](NOTICE), and [AUTHORS](AUTHORS).
+Licensed under the Apache License 2.0. See [LICENSE](LICENSE), [NOTICE](NOTICE), and
+[AUTHORS](AUTHORS).
 
 > [!NOTE]
-> This library was generated using [Copier](https://copier.readthedocs.io/en/stable/)
-> from the
+> This library was generated using [Copier](https://copier.readthedocs.io/en/stable/) from the
 > [Base Python Project Template](https://github.com/python-project-templates/base).

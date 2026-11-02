@@ -7,10 +7,8 @@
 #
 from abc import ABCMeta, abstractmethod
 
-from six import with_metaclass
 
-
-class DataModel(with_metaclass(ABCMeta)):
+class DataModel(metaclass=ABCMeta):
     _widget = None
 
     def _setWidget(self, widget):
