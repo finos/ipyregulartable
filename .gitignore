@@ -133,6 +133,10 @@ js/playwright-report
 js/*.tgz
 
 # Jupyter
+.jupyterlite.doit.db
+docs/lite/files/
+docs/lite/pypi/
+docs/lite/jupyter_lite_config.json
 .ipynb_checkpoints
 .autoversion
 Untitled*.ipynb

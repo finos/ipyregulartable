@@ -1,0 +1,12 @@
+{
+  "jupyter-lite-schema-version": 0,
+  "jupyter-config-data": {
+    "appName": "ipyregulartable",
+    "defaultKernelName": "python",
+    "litePluginSettings": {
+      "@jupyterlite/pyodide-kernel-extension:kernel": {
+        "pyodideUrl": "https://cdn.jsdelivr.net/pyodide/v314.0.6/full/pyodide.mjs"
+      }
+    }
+  }
+}
