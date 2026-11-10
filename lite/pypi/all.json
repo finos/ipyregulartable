@@ -5,19 +5,19 @@
         {
           "comment_text": "",
           "digests": {
-            "md5": "f2e70846acbe0731c46b64870d93cbb9",
-            "sha256": "90507859ec6a2ce55e09075eed7b07ccf1df2c378eaaa5bf04b5fa4cd4368ac0"
+            "md5": "f44d83fb3d51d764d9840ed6e22f1748",
+            "sha256": "e00c81444f626e514fb919323486d17048604dfce678b75de5044124affe798f"
           },
           "downloads": -1,
           "filename": "ipyregulartable-0.3.7-py3-none-any.whl",
           "has_sig": false,
-          "md5_digest": "f2e70846acbe0731c46b64870d93cbb9",
+          "md5_digest": "f44d83fb3d51d764d9840ed6e22f1748",
           "packagetype": "bdist_wheel",
           "python_version": "py3",
           "requires_python": ">=3.11",
-          "size": 17169,
-          "upload_time": "2026-11-10T15:47:55.561329Z",
-          "upload_time_iso_8601": "2026-11-10T15:47:55.561329Z",
+          "size": 17238,
+          "upload_time": "2026-11-10T16:43:50.038801Z",
+          "upload_time_iso_8601": "2026-11-10T16:43:50.038801Z",
           "url": "./ipyregulartable-0.3.7-py3-none-any.whl",
           "yanked": false,
           "yanked_reason": null
@@ -42,8 +42,8 @@
           "python_version": "py3",
           "requires_python": ">=3.10",
           "size": 2115391,
-          "upload_time": "2026-11-10T15:47:56.269938Z",
-          "upload_time_iso_8601": "2026-11-10T15:47:56.269938Z",
+          "upload_time": "2026-11-10T16:43:51.092494Z",
+          "upload_time_iso_8601": "2026-11-10T16:43:51.092494Z",
           "url": "./spaday-0.13.1-cp314-cp314-pyemscripten_2026_0_wasm32.whl",
           "yanked": false,
           "yanked_reason": null
@@ -68,8 +68,8 @@
           "python_version": "py3",
           "requires_python": ">=3.11",
           "size": 86411,
-          "upload_time": "2026-11-10T15:47:56.270957Z",
-          "upload_time_iso_8601": "2026-11-10T15:47:56.270957Z",
+          "upload_time": "2026-11-10T16:43:51.093444Z",
+          "upload_time_iso_8601": "2026-11-10T16:43:51.093444Z",
           "url": "./spaday_regular_table-0.3.0-py3-none-any.whl",
           "yanked": false,
           "yanked_reason": null

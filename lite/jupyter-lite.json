@@ -2,10 +2,13 @@
   "jupyter-config-data": {
     "appName": "ipyregulartable",
     "appUrl": "./lab",
-    "appVersion": "0.8.2",
+    "appVersion": "0.8.7",
     "baseUrl": "./",
     "contentsAllJsonFile": "all.json",
     "defaultKernelName": "python",
+    "disabledExtensions": [
+      "@jupyterlite/application-extension:service-worker-manager"
+    ],
     "faviconUrl": "./lab/favicon.ico",
     "federated_extensions": [
       {
@@ -15,7 +18,7 @@
       },
       {
         "extension": "./extension",
-        "load": "static/remoteEntry.aa04e0a5a4304ac1.js",
+        "load": "static/remoteEntry.3fd2fc616c9d99ad.js",
         "name": "@jupyterlite/pyodide-kernel-extension"
       },
       {
@@ -408,21 +411,24 @@
     "licensesUrl": "./lab/api/licenses",
     "litePluginSettings": {
       "@jupyterlite/pyodide-kernel-extension:kernel": {
+        "loadPyodideOptions": {
+          "enableRunUntilComplete": false
+        },
         "pipliteUrls": [
-          "./pypi/all.json?sha256=8ae6157963ce3e0eb70c4ca35bb08d7a1c669114efd4215a5ba1a58a5aff4ae8",
-          "./extensions/@jupyterlite/pyodide-kernel-extension/static/pypi/all.json?sha256=f67dd037f0a3fd732fb23ec94f0f1578b5bd12ea0bafcff420696664e732559f"
+          "./pypi/all.json?sha256=8c4a12d7546652ada3d7f35fc9ed5f62a14adcd8231b0b2289a91fe9156d7dcf",
+          "./extensions/@jupyterlite/pyodide-kernel-extension/static/pypi/all.json?sha256=2eef5d56d249d64b3f88bb6036c70b54bd5b8ccbc243157e6fc77a4743e6eec7"
         ],
-        "pyodideUrl": "https://cdn.jsdelivr.net/pyodide/v314.0.6/full/pyodide.mjs"
+        "pyodideUrl": "https://cdn.jsdelivr.net/pyodide/v314.0.7/full/pyodide.mjs"
       }
     },
     "versionInfo": {
       "@jupyter-notebook/application": {
         "label": "Jupyter Notebook",
-        "version": "7.6.0"
+        "version": "7.6.4"
       },
       "@jupyterlab/application": {
         "label": "JupyterLab",
-        "version": "4.6.0"
+        "version": "4.6.5"
       }
     }
   },
