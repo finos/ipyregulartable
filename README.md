@@ -16,10 +16,13 @@ An [AnyWidget](https://anywidget.dev/) wrapper around
 
 ## Try in your browser
 
-Open the [example notebooks](https://finos.github.io/ipyregulartable/lite/lab/index.html)
-in JupyterLite and run all cells. The first cell installs `ipyregulartable` from the site's build.
+Open [examples.ipynb](https://finos.github.io/ipyregulartable/lite/)
+in JupyterLite and choose **Run → Run All Cells**. The first cell installs `ipyregulartable` from the site's build.
 Pyodide runs Python and widget callbacks in your browser. The first load downloads the Python runtime
 and dependencies.
+
+The demo kernel uses an in-memory filesystem. Files uploaded through JupyterLite's file browser
+are not mounted in Python; the examples generate their data in code.
 
 To build and serve the site locally:
 
@@ -29,10 +32,10 @@ make jupyterlite
 python -m http.server 8000 --directory dist
 ```
 
-Open `http://localhost:8000/lite/lab/index.html`. To check both notebooks in Chromium, install
+Open `http://localhost:8000/lite/`. To check the notebook in Chromium, Firefox, and WebKit, install
 Node.js and pnpm, then run `make test-jupyterlite`.
 
-The build copies `docs/examples/*.ipynb` into the site, adds the install cell, and clears saved
+The build copies `docs/examples/examples.ipynb` into the site, adds the install cell, and clears saved
 outputs and widget state.
 
 Configure GitHub Pages to serve the root of `gh-pages`. The publishing workflow updates that
