@@ -16,22 +16,30 @@ An [AnyWidget](https://anywidget.dev/) wrapper around
 
 ## Try in your browser
 
-Open the [JupyterLite examples](https://finos.github.io/ipyregulartable/lite/lab/index.html).
-Choose a notebook and run every cell, starting with the install cell. Python runs in Pyodide;
-widgets and click callbacks run in your browser. The site uses the wheel built from this repository
-and downloads the Python runtime and remaining dependencies on first use.
+Open [examples.ipynb](https://finos.github.io/ipyregulartable/lite/)
+in JupyterLite and choose **Run → Run All Cells**. The first cell installs `ipyregulartable` from the site's build.
+Pyodide runs Python and widget callbacks in your browser. The first load downloads the Python runtime
+and dependencies.
 
-To build and check the site locally:
+The demo kernel uses an in-memory filesystem. Files uploaded through JupyterLite's file browser
+are not mounted in Python; the examples generate their data in code.
+
+To build and serve the site locally:
 
 ```bash
 uv pip install -e '.[develop,lite]'
-make test-jupyterlite
+make jupyterlite
 python -m http.server 8000 --directory dist
 ```
 
-Open `http://localhost:8000/lite/lab/index.html`. Use `make jupyterlite` to build without running
-browser tests. Browser checks need Node.js and pnpm. The build stages copies of
-`docs/examples/*.ipynb` and clears saved outputs and widget state; the source notebooks are unchanged.
+Open `http://localhost:8000/lite/`. To check the notebook in Chromium, Firefox, and WebKit, install
+Node.js and pnpm, then run `make test-jupyterlite`.
+
+The build copies `docs/examples/examples.ipynb` into the site, adds the install cell, and clears saved
+outputs and widget state.
+
+Configure GitHub Pages to serve the root of `gh-pages`. The publishing workflow updates that
+branch after a successful `main` build.
 
 ## Installation
 
@@ -68,10 +76,10 @@ table = RegularTableWidget(
 table
 ```
 
-The widget is a `spaday.Widget`. It renders the `spaday-regular-table` custom element and uses Spaday's
-component tree and action runtime for browser behavior.
+The widget extends `spaday.Widget` and renders `spaday-regular-table`. Spaday's action runtime
+handles browser behavior.
 
-Register a click callback with the existing API:
+Register a click callback:
 
 ```python
 table.on_click(lambda widget, coordinates: print(coordinates))
@@ -115,13 +123,13 @@ class MyDataModel(DataModel):
         """Return a data slice, inclusive of both coordinate pairs."""
 ```
 
-`spaday-regular-table` keeps row records in the browser and virtualizes their DOM rendering. This
-implementation materializes at most 1,000,000 cells when the widget is created or redrawn. Larger
-models raise `ValueError` instead of sending an unbounded payload over the widget comm.
+`spaday-regular-table` keeps row records in the browser and virtualizes their DOM rendering.
+`RegularTableWidget` materializes at most 1,000,000 cells when created or redrawn. Larger models raise
+`ValueError`.
 
 ## Compatibility
 
-The Spaday implementation supports:
+`RegularTableWidget` supports:
 
 - NumPy arrays, pandas Series, pandas DataFrames, and bounded custom `DataModel` objects;
 - viewport-virtualized rendering through `spaday-regular-table`;

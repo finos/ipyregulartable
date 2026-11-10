@@ -43,7 +43,8 @@ def main():
                 "metadata": {},
                 "outputs": [],
                 "source": [
-                    "%pip install -q ipyregulartable\n",
+                    "import piplite\n",
+                    "await piplite.install('ipyregulartable')\n",
                     "from importlib.metadata import version\n",
                     "print('ipyregulartable', version('ipyregulartable'))",
                 ],

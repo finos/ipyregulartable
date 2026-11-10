@@ -41,8 +41,8 @@ dependencies = [
 
 [project.optional-dependencies]
 lite = [
-    "jupyterlite-core[contents]==0.8.2",
-    "jupyterlite-pyodide-kernel==0.8.3",
+    "jupyterlite-core[contents]==0.8.7",
+    "jupyterlite-pyodide-kernel==0.8.7",
     "jupyterlab-widgets==3.0.15",
     "pip",
 ]
