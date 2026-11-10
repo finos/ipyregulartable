@@ -1,0 +1,80 @@
+{
+  "ipyregulartable": {
+    "releases": {
+      "0.3.7": [
+        {
+          "comment_text": "",
+          "digests": {
+            "md5": "f2e70846acbe0731c46b64870d93cbb9",
+            "sha256": "90507859ec6a2ce55e09075eed7b07ccf1df2c378eaaa5bf04b5fa4cd4368ac0"
+          },
+          "downloads": -1,
+          "filename": "ipyregulartable-0.3.7-py3-none-any.whl",
+          "has_sig": false,
+          "md5_digest": "f2e70846acbe0731c46b64870d93cbb9",
+          "packagetype": "bdist_wheel",
+          "python_version": "py3",
+          "requires_python": ">=3.11",
+          "size": 17169,
+          "upload_time": "2026-11-10T15:47:55.561329Z",
+          "upload_time_iso_8601": "2026-11-10T15:47:55.561329Z",
+          "url": "./ipyregulartable-0.3.7-py3-none-any.whl",
+          "yanked": false,
+          "yanked_reason": null
+        }
+      ]
+    }
+  },
+  "spaday": {
+    "releases": {
+      "0.13.1": [
+        {
+          "comment_text": "",
+          "digests": {
+            "md5": "54a76f88ef7dbd36ca12f42917e39f6f",
+            "sha256": "e393df4092d1e04be2ab90412d7997907b3a346de3ed22de652f18d59f390b6e"
+          },
+          "downloads": -1,
+          "filename": "spaday-0.13.1-cp314-cp314-pyemscripten_2026_0_wasm32.whl",
+          "has_sig": false,
+          "md5_digest": "54a76f88ef7dbd36ca12f42917e39f6f",
+          "packagetype": "bdist_wheel",
+          "python_version": "py3",
+          "requires_python": ">=3.10",
+          "size": 2115391,
+          "upload_time": "2026-11-10T15:47:56.269938Z",
+          "upload_time_iso_8601": "2026-11-10T15:47:56.269938Z",
+          "url": "./spaday-0.13.1-cp314-cp314-pyemscripten_2026_0_wasm32.whl",
+          "yanked": false,
+          "yanked_reason": null
+        }
+      ]
+    }
+  },
+  "spaday-regular-table": {
+    "releases": {
+      "0.3.0": [
+        {
+          "comment_text": "",
+          "digests": {
+            "md5": "2872bc5ac10ceb6bba66e7f4cb2cab41",
+            "sha256": "254cc4d46f10f96ca7b534b3b09405e386e5c6b6f32c90b2ac9b38e7af9d59b3"
+          },
+          "downloads": -1,
+          "filename": "spaday_regular_table-0.3.0-py3-none-any.whl",
+          "has_sig": false,
+          "md5_digest": "2872bc5ac10ceb6bba66e7f4cb2cab41",
+          "packagetype": "bdist_wheel",
+          "python_version": "py3",
+          "requires_python": ">=3.11",
+          "size": 86411,
+          "upload_time": "2026-11-10T15:47:56.270957Z",
+          "upload_time_iso_8601": "2026-11-10T15:47:56.270957Z",
+          "url": "./spaday_regular_table-0.3.0-py3-none-any.whl",
+          "yanked": false,
+          "yanked_reason": null
+        }
+      ]
+    }
+  }
+}
