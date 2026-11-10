@@ -21,16 +21,16 @@ install:  ## install library
 .PHONY: lint-py lint-docs fix-py fix-docs lint lints fix format
 
 lint-py:  ## lint python with ruff
-	python -m ruff check ipyregulartable
-	python -m ruff format --check ipyregulartable
+	python -m ruff check ipyregulartable docs/lite/prepare.py
+	python -m ruff format --check ipyregulartable docs/lite/prepare.py
 
 lint-docs:  ## lint docs with mdformat and codespell
 	python -m mdformat --check README.md
 	python -m codespell_lib README.md
 
 fix-py:  ## autoformat python code with ruff
-	python -m ruff check --fix ipyregulartable
-	python -m ruff format ipyregulartable
+	python -m ruff check --fix ipyregulartable docs/lite/prepare.py
+	python -m ruff format ipyregulartable docs/lite/prepare.py
 
 fix-docs:  ## autoformat docs with mdformat and codespell
 	python -m mdformat README.md
@@ -60,6 +60,21 @@ check: checks
 #########
 # TESTS #
 #########
+.PHONY: jupyterlite test-jupyterlite
+
+jupyterlite: build  ## build the example notebooks into dist/lite
+	rm -rf docs/lite/files docs/lite/pypi docs/lite/.cache dist/lite
+	python docs/lite/prepare.py
+	mkdir -p docs/lite/pypi
+	cp dist/ipyregulartable-*.whl docs/lite/pypi/
+	python -m pip download --no-deps --only-binary=:all: --platform pyemscripten_2026_0_wasm32 --python-version 314 --implementation cp --abi cp314 --dest docs/lite/pypi "spaday==0.13.1" "spaday-regular-table==0.3.0"
+	python -m jupyter lite build --lite-dir docs/lite --output-dir $(CURDIR)/dist/lite
+
+test-jupyterlite: jupyterlite  ## run all example notebooks in Chromium
+	cd js; pnpm install --frozen-lockfile
+	cd js; pnpm exec playwright install --with-deps chromium
+	cd js; pnpm run test:lite
+
 .PHONY: test coverage tests
 
 test:  ## run python tests

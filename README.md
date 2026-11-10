@@ -14,6 +14,25 @@ An [AnyWidget](https://anywidget.dev/) wrapper around
 [![FINOS Incubating](https://cdn.jsdelivr.net/gh/finos/contrib-toolbox@master/images/badge-incubating.svg)](https://community.finos.org/docs/governance/software-projects/stages/incubating)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/finos/ipyregulartable/main?urlpath=lab)
 
+## Try in your browser
+
+Open the [JupyterLite examples](https://finos.github.io/ipyregulartable/lite/lab/index.html).
+Choose a notebook and run every cell, starting with the install cell. Python runs in Pyodide;
+widgets and click callbacks run in your browser. The site uses the wheel built from this repository
+and downloads the Python runtime and remaining dependencies on first use.
+
+To build and check the site locally:
+
+```bash
+uv pip install -e '.[develop,lite]'
+make test-jupyterlite
+python -m http.server 8000 --directory dist
+```
+
+Open `http://localhost:8000/lite/lab/index.html`. Use `make jupyterlite` to build without running
+browser tests. Browser checks need Node.js and pnpm. The build stages copies of
+`docs/examples/*.ipynb` and clears saved outputs and widget state; the source notebooks are unchanged.
+
 ## Installation
 
 Install the Python package. AnyWidget supplies the Jupyter integration, so there is no labextension or

@@ -88,3 +88,44 @@ jobs:
         with:
           name: dist
           path: dist
+
+  lite:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup Python
+        uses: actions-ext/python/setup@c7ef9cbf13bc854a8d1422e9f8c6ee7a7ce1b911
+        with:
+          version: "3.11"
+
+      - name: Setup Node.js
+        uses: actions-ext/node/setup@8bcebee998923fcc26f5854b4fd05ea378b58262
+        with:
+          version: 22.x
+
+      - name: Install dependencies
+        run: uv pip install -e '.[develop,lite]'
+
+      - name: Build and test JupyterLite examples
+        run: make test-jupyterlite
+
+      - name: Lint browser tests
+        run: cd js && pnpm lint
+
+      - name: Upload JupyterLite site
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9  # v7.0.2
+        with:
+          name: jupyterlite-site
+          path: dist/lite
+          if-no-files-found: error
+
+      - name: Upload browser diagnostics
+        if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9  # v7.0.2
+        with:
+          name: jupyterlite-test-results
+          path: js/test-results
